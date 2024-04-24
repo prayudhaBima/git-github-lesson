@@ -1,0 +1,244 @@
+- Git Diff
+    - Pengertian git diff
+
+        Git diff adalah perintah yang digunakan untuk melihat perubahan antara dua komit (commit) atau antara working directory dan staging area (index). Ini memungkinkan kita untuk melihat perbedaan dalam file yang telah diubah sejak komit terakhir atau di antara dua cabang (branch).
+
+        Berikut beberapa contoh penggunaan git diff:
+
+            1. Melihat perbedaan antara Working Directory dan Index (Staging Area):
+
+                    git diff
+            
+                Perintah diatas akan menampilkan perbedaan antara file yang telah diubah di working directory dan apa yang telah ditambahkan ke staging area.
+            
+            2. Melihat perbedaan antara working directory saat ini dan komit terakhir di cabang saat ini (biasanya disebut HEAD).
+
+                    git diff HEAD
+
+                perintah diatas akan menunjukkan perbedaan antara apa yang ada di working directory saat ini dan apa yang telah dikommitkan ke cabang saat ini (dipetakan oleh HEAD), yang mencakup perubahan yang belum dikommitkan ke repositori.
+            
+            3. Melihat perbedaan antara Index (Staging Area) dan Komit Terakhir:
+
+                    git diff --staged
+
+                Perintah diatas akan menampilkan perbedaan antara file yang telah ditambahkan ke staging area dan apa yang telah terkomitkan.
+
+                "Show me what will be include in my commit if i run git commit right now"
+
+            4. Melihat perbedaan antara 2 branch yang berbeda:
+
+                    git diff branch1..branch2
+
+                Perintah diatas akan menampilkan perbedaan antara dua branch tersebut.
+                Opsional: Jika Ingin Melihat Perbedaan dengan Lebih Rinci: kita juga dapat menggunakan opsi tambahan seperti --stat untuk melihat ringkasan perubahan, atau --color untuk menambahkan pewarnaan pada output.
+
+            5. Melihat perbedaan antara 2 commit yang berbeda:
+
+                    git diff commitHashId1..commitHashId2
+                    git diff bcd7692..f0777ed 
+
+                Perintah diatas akan menampilkan perbedaan antara 2 commit tersebut.
+
+    - Cara membaca pattern yang dihasilkan dari perintah "git diff" :
+
+        Contoh jika kita memiliki 2 commit yang berbeda :
+
+            Last Commit = red, orange, yellow, green, blue, purple
+            New Changes = red, orange, yellow, green, blue, indigo, violet
+
+        Ketika kita menggunakan perintah "git diff" maka akan muncul seperti berikut :
+
+            diff --git a/rainbow.txt b/rainbow.txt
+            index 72d1d5..fc287weyew 100123
+            --- a/rainbow.txt
+            +++ b/rainbow.txt
+            @@ -3,4 +3,5 @@ orange
+
+            yellow
+            green
+            blue
+            -purple
+            +indigo
+            +violet
+        
+        Pada baris pertama :
+
+            diff --git a/rainbow.txt b/rainbow.txt
+
+        Git akan menjelaskan files mana yang sedang dibandingkan. Biasanya files nya merupakan files yang sama namun berbeda versi, tapi bisa juga berbeda files tergantung sikon. Git akan mendeklarasikan files nya sebagai "A" dan yang lainnya sebagai "B".
+
+        Pada baris berikut :
+
+            @@ -3,4 +3,5 @@ orange
+
+            yellow
+            green
+            blue
+            -purple
+            +indigo
+            +violet
+
+        Baris diatas menunjukan konteks-konteks dari perubahan dan juga perbedaan yang terjadi pada kedua file commit tersebut.  -purple (minus) artinya diganti dengan +indigo, +violet (plus). Atau bisa juga + (plus) merupakan perubahan yang ditambahkan pada commit tersebut.
+
+    - Latihan git diff
+
+    Terdapat 2 branch, "current" dan "1970s".
+
+    1. While on the "current" branch, change the "queen.txt" file by replacing Adam Lambert with your own name.  Save the change.  Add "queen.txt" to the staging area.  DO NOT COMMIT YET!
+    2. Edit the "fleetwoodmac.txt" file, changing the lead singer from Stevie Nicks to Stevie Chicks (one of my chickens).  Save the file, but do not stage it.
+
+    3. Run a diff that would reveal the unstaged changes in the working directory (you should see only the change to "fleetwoodmac.txt" printed out) --> "git diff"
+
+    4. Run a diff that would reveal only the staged changes (you should only see the change to "queen.txt" printed out) --> "git diff --staged"
+    
+    5. Run a diff that prints all changes (staged and unstaged) since the prior commit (you should see both changes printed out) --> "git diff HEAD"
+
+    - Kesimpulan git diff
+
+    "git diff", digunakan untuk melihat perubahan apa saja yang terjadi saat proses masih di working directory.
+
+    "git diff --staged", digunakan untuk melihat perubahan apa saja yang terjadi pada proses yang sudah ada di staging index.
+
+    "git diff HEAD", digunakan untuk melihat perubahan apa saja yang terjadi baik di working directory ataupun staging index tapi yang belum dicommit ke repositori berdasarkan pada data commit terakhir terakhir.
+
+- Git stash
+
+    - Permasalahan yang terjadi dan bisa diselesaikan oleh git stash
+
+        Anggap kita sedang berada pada branch cabang, lalu melakukan beberapa experimen pada branch tersebut tetapi karena beberapa alasan kita "tidak meng-commit" perubahan experimen kita ke repository. Lalu kita berpindah ke branch master, maka yang terjadi pada perubahan experimen yang kita lakukan pada branch cabang terdapat 2 kemungkinan, yaitu :
+
+            1. Semua perubahan experimen pada branch cabang akan ikut ke branch master walapun pada branch cabang tersebut perubahan nya belum kita commit ke repositori.
+
+                Pada skenario ini, jika kita kembali ke branch cabang lalu melakukan commit perubahan yang belum ter-commit sebelumnya. Maka perubahan itu hanya berlaku pada branch cabang tersebut, pada branch master perubahan nya akan hilang.
+
+            2. Git akan menolak saat kita ingin berpindah ke branch master jika terjadi konflik antara perubahan yang terjadi pada branch cabang dan branch master.
+    
+    - Pengertian git stash
+
+        Git stash adalah fitur yang digunakan dalam Git untuk menyembunyikan perubahan yang belum di-commit dalam working directory kita. Ini berguna ketika kita ingin menyimpan perubahan sementara, tetapi tidak ingin membuat commit baru.
+
+        Penggunaan git stash biasanya terjadi dalam situasi seperti ini:
+
+            1. kita sedang bekerja pada perubahan di working directory, tetapi tidak siap untuk membuat commit.
+            2. Ada kebutuhan mendadak untuk beralih ke branch lain atau menyelesaikan pekerjaan yang mendesak.
+            3. kita ingin menyimpan perubahan kita tetapi tidak ingin mereka tercampur dengan commit lain yang ada di branch saat ini.
+
+        Dengan menggunakan "git stash", kita bisa "menyembunyikan" perubahan kita dan kembali ke keadaan bersih di working directory, tanpa perubahan yang belum di-commit. Kemudian, kita bisa kembali ke perubahan tersebut kapan pun kita mau.
+
+        Berikut adalah beberapa perintah yang sering digunakan dalam Git stash:
+
+            - git stash push: Menyembunyikan perubahan dalam working directory.
+            - git stash list: Menampilkan daftar stash yang ada.
+            - git stash pop: Mengembalikan perubahan yang terakhir di-stash dan menghapusnya dari stash list.
+            - git stash apply: Mengembalikan perubahan yang terakhir di-stash tetapi tidak menghapusnya dari stash list.
+            - git stash drop: Menghapus perubahan yang terakhir di-stash dari stash list.
+
+- Undoing Changes and Time Traveling
+
+    - Git Checkout <hash-commit>
+
+    Perintah git checkout <hash-commit> membuat kita akan berada pada mode Detached Head yang akan memindahkan Head, tidak lagi kesebuah branch tertentu tapi ke commit tertentu. Ini umumnya terjadi saat kita memeriksa atau memperbaiki sesuatu pada komit tertentu tanpa mempengaruhi cabang yang ada. Ada beberapa opsi yang bisa dilakukan saat berada dalam Detached Head, yaitu :
+
+        1. Ketika kita hanya melihat perubahan yang terjadi pada sebuah commit menggunakan "git checkout hash commit" tanpa mengedit atau mengubah apapun isinya, dan ingin kembali ke master branch (branch saat ini) dan keluar dari Detached Head, kita bisa gunakan perintah "git switch <nama-branch-tempat-Head-terakhir>" atau "git switch -"
+
+        2. Ketika kita membuat komit baru dalam mode detached HEAD, kita mungkin perlu menyimpan referensi ke komit tersebut untuk mencegahnya terhapus secara otomatis oleh Git. Ini bisa dilakukan dengan membuat cabang baru dari HEAD dengan menggunakan perintah "git checkout -b <nama-cabang>".
+    
+    - Git Checkout HEAD <nama-file>
+
+        Untuk mengembalikan file kembali seperti sebelum dirubah baik perubahan tersebut terjadi pada working directory, staging index. Kita dapat mengembalikan seperti semula menggunakan perintah : 
+            
+            "git checkout HEAD <nama-file>" atau "git checkout -- <nama-file>"
+
+        Tapi perintah diatas tidak bisa digunakan untuk mengembalikan perubahan seperti semula, jika perubahan yang baru sudah di commit kedalam repositori. Jadi perlu diperhatikan.
+    
+    - Git restore
+    
+        Git restore adalah perintah yang digunakan untuk mengembalikan perubahan pada file dalam working directory kita ke keadaan yang sebelumnya, baik itu ke keadaan yang terakhir di-commit atau ke keadaan tertentu dari commit tertentu.
+
+        Perlu diingat Saat kita menggunakan git restore, posisi HEAD (penunjuk ke commit terakhir dalam branch saat ini) tidak berubah. Artinya, perintah git restore tidak mengubah HEAD atau sejarah commit.
+
+        Perintah git restore hanya mengembalikan atau mengubah keadaan file dalam working directory atau index/staged area sesuai dengan opsi yang kita berikan (seperti mengembalikan ke keadaan yang terakhir di-commit atau ke keadaan tertentu dari commit tertentu). Hal ini tidak berdampak pada HEAD atau riwayat commit kita. Sebagai gantinya, itu hanya mempengaruhi kondisi file dalam proyek kita.
+
+        - Ada beberapa cara untuk menggunakan git restore:
+
+            1. Mengembalikan ke keadaan terakhir di-commit:
+
+                git restore <nama_file>
+
+            Perintah ini akan mengembalikan file ke keadaan yang terakhir di-commit.
+
+            2. Mengembalikan ke keadaan tertentu dari commit tertentu:
+
+                git restore --source=<commit_id> <nama_file> atau git restore --source HEAD~n <nama-file>
+
+                    keterangan : HEAD~n, nilai (n) adalah nilai commit spesifik yang ingin kita tuju, misal commit ke-1 dari commit sekarang berarti HEAD~1, akan kembali ke commit sebelumnya (parent).
+
+            Ini akan mengembalikan file ke keadaan tertentu yang ada pada commit dengan ID yang ditentukan.
+
+            3. Mengembalikan dengan mode spesifik:
+
+                git restore --staged <nama_file>
+
+            Ini akan mengembalikan file dari staged area ke working directory.
+
+        Jadi perintah git restore berguna ketika kita ingin mengembalikan perubahan pada file tanpa mengubah sejarah commit. Ini membantu dalam situasi di mana kita melakukan perubahan yang tidak diinginkan atau perlu mengatur kembali keadaan file tanpa membuat commit baru. Jika perubahan baru sudah di commit ke repositori, maka kita harus melakukan git restore dengan cara seperti yang ada pada nomer 2.
+    
+    - Git reset 
+
+        Git reset adalah perintah yang sangat penting dalam Git yang digunakan untuk mengatur status repo Git kita. Ini memungkinkan kita untuk "mengatur ulang" HEAD repositori kita ke commit tertentu, yang dapat berdampak pada berbagai hal, termasuk perubahan yang dilakukan di working directory dan staging area.
+
+        Berikut adalah beberapa opsi umum untuk perintah "git reset":
+
+            1. Reset Biasa:
+
+                git reset <commit-hash>
+
+            Ini akan mengembalikan HEAD terakhir ke commit yang dituju, dan pada commit yang dituju perubahan dari commit terakhir atau HEAD terakhir tersebut tidak akan hilang tapi diletakkan kembali ke working directory (Basic reset).
+
+            2. Soft Reset:
+
+                git reset --soft <commit-hash>
+
+            Ini akan memindahkan HEAD ke commit yang ditentukan tetapi tidak mengubah staging area atau direktori kerja kita. Perubahan dari commit target akan ditambahkan kembali ke staging area, berbeda dengan reset biasa yang mengembalikan ke working directory.
+
+            3. Hard Reset:
+
+                git reset --hard <commit-hash>
+
+            Ini adalah reset yang paling ekstrim. Ini memindahkan HEAD ke commit yang ditentukan, mengatur ulang staging area, dan mengembalikan direktori kerja kita ke keadaan di commit tersebut. Ini menghilangkan semua perubahan yang belum ditandai dan yang ditandai.
+
+        Perlu diingat bahwa mengatur ulang sejarah commit dapat berdampak besar pada kolaborasi tim dan berbagi kode. Jadi, pastikan kita memahami konsekuensi dari setiap opsi reset sebelum menerapkannya, terutama jika kita bekerja dalam tim atau proyek yang melibatkan kontribusi dari banyak orang. Juga, pastikan untuk melakukan pencadangan (backup) repo kita sebelum melakukan reset, terutama hard reset, untuk menghindari kehilangan perubahan yang tidak diinginkan.
+
+    - Git revert
+
+        Perintah "git revert" digunakan untuk membatalkan perubahan yang telah ditambahkan ke repositori Git dengan menciptakan commit baru yang membatalkan perubahan yang ada. Ini berbeda dengan "git reset", yang mengubah sejarah commit yang ada. "git revert" tidak menghapus sejarah commit yang sudah ada, tetapi menambahkan commit baru yang membalikkan perubahan dari commit target.
+
+        Berikut adalah sintaks dari perintah "git revert":
+
+            git revert <commit-hash>
+
+    "git revert" akan membuat commit baru yang membatalkan perubahan yang dilakukan oleh commit yang ditargetkan <commit-hash>, dan kemudian menambahkan commit ini ke sejarah repositori. Contoh:
+
+        Misalkan Anda memiliki beberapa commit di repositori Anda:
+
+            A - B - C - D (HEAD)
+
+        Dan kita ingin membatalkan perubahan yang dilakukan oleh commit C. Kita dapat menggunakan perintah:
+
+            git revert C
+
+        Setelah itu, repositori kita akan memiliki struktur seperti ini:
+
+            A - B - C - D - E (HEAD)
+
+        Di mana E adalah commit baru yang menbatalkan perubahan yang diperkenalkan oleh commit C.
+
+    Perlu diingat bahwa ketika kita menggunakan "git revert", itu akan menciptakan commit baru di atas commit yang ingin kita batalkan. Ini berarti histori commit kita akan tetap utuh, dan kita tidak perlu khawatir tentang konflik yang mungkin terjadi jika kita menggunakan "git reset" dan menghapus commit secara langsung.
+
+    "git revert" juga memungkinkan untuk membatalkan beberapa commit sekaligus dengan menentukan rentang commit. Misalnya:
+
+        git revert C..D
+
+    Ini akan membuat commit baru untuk membatalkan perubahan yang diperkenalkan oleh commit C dan D.
+
+    Ini adalah cara aman untuk membatalkan perubahan yang sudah ada di repositori Anda tanpa menghapus sejarah commit.

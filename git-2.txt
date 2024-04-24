@@ -1,0 +1,190 @@
+- Git branch
+
+    "Git branch" adalah salah satu perintah yang sangat penting dalam Git yang digunakan untuk membuat, mengelola, dan beralih antara cabang (branch) dalam repository Git kita. Di bawah ini adalah beberapa informasi dasar yang perlu kita ketahui tentang "git branch":
+
+    1. Membuat Branch Baru
+    
+    kita dapat membuat cabang baru dengan perintah "git branch <nama-cabang>". Misalnya, untuk membuat cabang dengan nama "fitur-baru", kita dapat menggunakan perintah "git branch fitur-baru".
+
+    2. Melihat Daftar Cabang
+    
+    Untuk melihat daftar cabang yang ada dalam repository kita, gunakan perintah "git branch". Cabang yang sedang aktif akan diberi tkita bintang (*).
+
+    3. Beralih Antara Cabang
+    
+    kita dapat beralih antara cabang dengan perintah "git checkout <nama-cabang>" atau dengan perintah yang baru yaitu "git switch <nama-cabang>". Misalnya, untuk beralih ke cabang "fitur-baru", kita dapat menggunakan perintah "git checkout fitur-baru".
+
+    4. Membuat dan Beralih ke Cabang Baru Secara Bersamaan 
+    
+    Perintah "git checkout -b <nama-cabang>" akan membuat cabang baru dengan nama yang ditentukan dan langsung beralih ke cabang tersebut. Contohnya, "git checkout -b fitur-baru" akan membuat cabang baru bernama "fitur-baru" dan beralih ke cabang tersebut.
+
+    5. Menghapus Cabang
+    
+    Jika kita sudah selesai dengan sebuah cabang dan tidak membutuhkannya lagi, kita dapat menghapusnya dengan perintah "git branch -d <nama-cabang>".  Perlu diperhatikan kita tidak dapat menghapus cabang jika kita sedang berada pada branch yang ingin kita hapus. Pastikan juga untuk tidak menghapus cabang yang sedang kita gunakan tanpa pertimbangan yang matang.
+
+    6. Menggabungkan Cabang
+    
+    Setelah kita selesai dengan pengembangan pada sebuah cabang dan ingin menggabungkannya ke cabang utama (biasanya "master" atau "main"), kita dapat menggunakan perintah "git merge <nama-cabang>". Ini akan menggabungkan perubahan dari cabang yang ditentukan ke cabang yang sedang aktif.
+
+    7. Menyinkronkan Cabang dengan Remote Repository 
+    
+    Jika kita bekerja dalam sebuah tim dan menggunakan remote repository seperti GitHub atau GitLab, kita mungkin perlu menyinkronkan cabang lokal kita dengan cabang di remote repository. Untuk melakukan ini, kita dapat menggunakan perintah "git pull origin <nama-cabang>" untuk mendapatkan perubahan terbaru dari cabang di remote repository, dan "git push origin <nama-cabang>" untuk mengirimkan perubahan lokal kita ke cabang yang sesuai di remote repository.
+
+    8. Mengubah Nama Cabang
+
+    Untuk mengubah nama branch, hal pertama yang harus dilakukan adalah kita harus beralih ke branch yang nama nya ingin diubah, setelah itu kita gunakan perintah berikut pada branch tersebut :
+
+        git branch -m <nama-branch-baru>
+
+    Itulah beberapa konsep dasar tentang "git branch". Ini adalah alat yang sangat berguna dalam pengembangan perangkat lunak kolaboratif, memungkinkan kita untuk bekerja pada fitur baru atau perbaikan bug tanpa mempengaruhi kode yang sudah ada di cabang utama.
+
+    - Permasalahan jika tidak menggunakan branch.
+
+    Dalam konteks Git, Saat kita membuat sebuah komit, Git tidak hanya menyimpan snapshot dari perubahan yang kita buat, tetapi juga menyimpan metadata tambahan, termasuk hash komit sebelumnya (parent commit), informasi penulis, pesan komit, dan lain-lain.
+
+    Bayangkan jika masing-masing programmer mengerjakan fitur yang berbeda-beda, dan mereka melakukannya pada satu branch yang sama secara bersama-sama contohnya branch master. Maka konsep snapshot dari git commit akan sangat berantakan, dimana programmer 1 akan meng-commit perubahan kode dan mempengaruhi kode dari programmer-programmer lainnya.
+
+    Dalam konteks "git branch", setiap kali kita membuat sebuah cabang baru atau melakukan komit dalam sebuah cabang, Git hanya membuat referensi yang menunjukkan ke komit terakhir dalam cabang tersebut. Artinya jika kita melakukan perubahan kode pada cabang baru tersebut, perubahan itu tidak berdampak kepada branch-branch yang lainnya (kecuali kita melakukan "merge" perubahan tersebut).
+
+    - HEAD
+
+    Dalam Git, "HEAD" adalah referensi ke komit terakhir dalam cabang yang sedang aktif. Dengan kata lain, HEAD menunjukkan di mana kita "berada" dalam sejarah pengembangan atau perubahan dalam repository Git kita.
+
+    HEAD adalah pointer yang fleksibel yang bisa menunjuk ke cabang (disebut "cabang HEAD") atau bisa langsung menunjuk ke komit tertentu (disebut "detached HEAD"). Misalnya:
+
+    1. Cabang HEAD: Ketika kita berada pada suatu cabang, misalnya "master", HEAD akan menunjuk ke komit terakhir dalam cabang tersebut. Setiap kali kita membuat komit baru, HEAD akan berpindah untuk menunjuk ke komit terbaru ini.
+
+    2. Detached HEAD: Saat kita berada dalam mode "detached HEAD", HEAD tidak menunjuk ke sebuah cabang, tetapi langsung menunjuk ke sebuah komit spesifik. Hal ini bisa terjadi misalnya ketika kita melakukan git checkout langsung ke sebuah komit tertentu, bukan ke sebuah cabang. Ini umumnya terjadi saat kita memeriksa atau memperbaiki sesuatu pada komit tertentu tanpa mempengaruhi cabang yang ada.
+
+    Beberapa operasi, seperti "git checkout" ke sebuah cabang atau komit, akan memindahkan HEAD ke posisi yang sesuai. Jika kita memperhatikan pesan "detached HEAD" saat bekerja di Git, itu berarti kita sedang bekerja di luar konteks sebuah cabang dan mungkin akan ingin membuat atau beralih ke sebuah cabang jika kita ingin menyimpan perubahan kita.
+
+    Ketika kita membuat komit baru dalam mode detached HEAD, kita mungkin perlu menyimpan referensi ke komit tersebut untuk mencegahnya terhapus secara otomatis oleh Git. Ini bisa dilakukan dengan membuat cabang baru dari HEAD dengan menggunakan perintah "git checkout -b <nama-cabang>".
+
+    Ketika kita hanya melihat perubahan yang terjadi pada sebuah commit menggunakan "git checkout hash" tanpa mengedit atau mengubah apapun isinya, dan ingin kembali ke master branch dan keluar dari Detached Head, kita bisa gunakan perintah "git switch <nama-branch-tempat-Head-terakhir>"
+
+    - Info tambahan
+
+    Jika kita sedang berada pada sebuah branch, lalu terdapat proses yang belum kita pindahkan ke staging index menggunakan (git add) dan juga belum kita commit ke repository, Jika kita memindahkan branch ke branch yang lain, Maka akan menghasilkan error karena kita akan kehilangan perubahan tersebut atau terjadi konflik yang akan me-overriding perubahan yang sebelumnya sudah ada dan juga akan muncul pemberitahuan dari git untuk meng-commit terlebih dahulu perubahan tersebut atau men-stash nya.
+
+- Git Merge
+
+    - Pengertian
+
+    Git merge adalah proses penggabungan dua atau lebih cabang (branch) dalam repositori Git. Saat kita melakukan merge, perubahan yang dilakukan dalam satu cabang akan dimasukkan ke dalam cabang lainnya.
+
+    Bayangkan kita sedang bekerja pada proyek bersama dengan teman kita. Kita berdua memulai dengan versi proyek yang sama, tapi kemudian kita berdua membuat perubahan pada bagian yang berbeda. Ketika kita ingin menggabungkan perubahan kita dengan perubahan teman kita, kita melakukan "merge". Git akan mencoba menggabungkan perubahan-perubahan tersebut secara otomatis. Jika ada konflik (misalnya, kita dan teman kita mengubah bagian yang sama dari proyek), kita perlu memecahkan konflik tersebut secara manual.
+
+    Jadi, git merge adalah cara untuk menggabungkan perubahan yang telah dilakukan di cabang-cabang yang berbeda dalam repositori Git.
+
+    - Hal yang harus diperhatikan
+
+    Perintah merge kadang membingungkan untuk sebagian orang yang masih pemula. Terdapat 2 hal yang perlu diingat mengenai git merge, yaitu :
+
+        1. We merge branch, not specific commits
+        2. We always merge to the current HEAD branch
+    
+    - Cara melakukan merge
+
+    Berikut adalah langkah-langkah umum untuk menggunakan "git merge":
+
+    1. Pastikan kita Berada di Branch Tujuan: 
+    
+    Sebelum melakukan merge, pastikan kita berada di branch yang ingin kita gabungkan dengan branch lain. kita dapat menggunakan perintah "git checkout" untuk beralih ke branch yang diinginkan.
+
+        git checkout <nama-branch-tujuan>
+   
+    2. Lakukan Merge: 
+    
+    Setelah berada di branch tujuan, kita dapat melakukan merge dengan branch lain menggunakan perintah "git merge".   
+
+        git merge <nama-branch-sumber>
+
+   Misalnya, jika kita ingin menggabungkan perubahan dari branch "feature" ke branch "master", kita akan mengetik:
+
+        git merge feature
+
+    Setelah melakukan merge antara branch "feature" dan branch "master", maka branch master akan memiliki seluruh history yang ada pada kedua branch tersebut. Tapi karena pada dasar nya kedua branch tersebut terisolasi satu sama lainnya, jika kita melakukan perubahan kembali pada branch "feature" maka branch "master" tetap tidak akan terpengaruh kedua nya tetap akan terisolasi kecuali kita melakukan perintah merge lagi.
+
+    - Merge Biasa (Non Fast-Forward)
+
+    Merge biasa, atau non-fast-forward merge, terjadi ketika kita melakukan merge dua cabang di Git, tetapi tidak mungkin melakukan fast-forward merge. Ini biasanya terjadi ketika ada perubahan pada cabang target setelah cabang sumber dibuat. Dalam hal ini, Git menciptakan commit merge baru yang memiliki dua parent: commit terakhir dari cabang target dan commit terakhir dari cabang sumber.
+
+    Mari kita ilustrasikan dengan contoh:
+
+    Misalkan kita memiliki dua cabang "master" dan "feature". Pada "master", kita memiliki commit A dan B, sedangkan pada "feature", kita memiliki commit C. Kemudian, kita ingin menggabungkan perubahan dari cabang "feature" ke cabang "master".
+
+    Jika tidak ada perubahan yang dilakukan di "master" setelah cabang "feature" dibuat, Git dapat melakukan fast-forward merge, yang hanya akan memindahkan pointer cabang "master" ke commit terakhir di cabang "feature". NAMUN, jika ada perubahan di "master" setelah "feature" dibuat contoh pada cabang "master" kita menambahkan commit D dimana cabang "feature" tidak mengetahuinya, Git tidak dapat melakukan fast-forward merge.
+
+    Dalam skenario ini, Git akan membuat commit merge baru di cabang "master". Commit merge ini akan memiliki dua parent, commit terakhir di cabang "master" sebelum merge dan commit terakhir di cabang "feature". Dengan cara ini, semua perubahan dari cabang "feature" dimasukkan ke dalam sejarah commit di cabang "master".
+
+    Merge biasa ini mempertahankan sejarah commit yang jelas dan memungkinkan kita untuk melacak perubahan yang dilakukan di setiap cabang. Namun, ini dapat menyebabkan sejarah commit yang agak kompleks jika ada banyak merge yang terjadi di repositori kita.
+
+    - Menyelesaikan konflik yang terjadi saat proses merging
+
+        1. Open up the file(s) with merge conflicts
+        2. Edit the file(s) to remove the conflicts. Decide which branch's content we want to keep in each conflict. Or keep the content from both.
+        3. Remove the conflict "markers" in the document
+        4. Add your changes and then make a commmit
+    
+        - Contoh konflik sederhana yang dapat terjadi pada saat melakukan merge branch
+
+        Misalkan ada dua orang, A dan B, yang sedang bekerja pada proyek yang sama. Keduanya memulai dengan versi yang sama dari file `hello.txt`, tetapi kemudian membuat perubahan yang bertentangan pada baris yang sama di file tersebut.
+
+        Konten file `hello.txt` di branch A:
+
+            Hello, world!
+            Ini adalah perubahan dari branch A.
+
+        Konten file `hello.txt` di branch B:
+
+            Hello, world!
+            Ini adalah perubahan dari branch B.
+
+        Ketika seseorang mencoba untuk menggabungkan perubahan dari kedua branch tersebut ke branch utama (master/main), Git akan menemukan konflik karena perubahan dari branch A dan B bertentangan pada baris yang sama di file `hello.txt`. Ini akan menyebabkan Git tidak dapat secara otomatis menentukan versi mana yang harus dipilih.
+
+        Contoh hasil konflik pada file `hello.txt` setelah merge:
+
+            Hello, world!
+            <<<<<<< HEAD
+            Ini adalah perubahan dari branch A.
+            =======
+            Ini adalah perubahan dari branch B.
+            >>>>>>> branchB
+
+        Pada bagian yang ditandai `<<<<<<< HEAD`, adalah perubahan yang berasal dari branch saat ini (biasanya branch yang sedang kita coba gabungkan), dalam kasus ini branch A. Pada bagian yang ditandai `>>>>>>> branchB`, adalah perubahan dari branch yang akan digabungkan, dalam kasus ini branch B.
+
+        - Contoh Penyelesaian Konflik diatas
+
+        Berikut adalah contoh sederhana cara mengatasi konflik tersebut:
+
+        Misalkan kita memiliki file `hello.txt` yang mengalami konflik saat digabungkan. Isi file `hello.txt` setelah konflik adalah sebagai berikut:
+
+            Hello, world!
+            <<<<<<< HEAD
+            Ini adalah perubahan dari branch A.
+            =======
+            Ini adalah perubahan dari branch B.
+            >>>>>>> branchB
+
+        Untuk menyelesaikan konflik, kita perlu memutuskan versi mana yang ingin kita simpan atau menggabungkan kedua versi tersebut secara manual. Dalam contoh ini, mari kita ambil versi dari branch A dan abaikan versi dari branch B.
+
+        1. Hapus tanda konflik dan garis pemisah `<<<<<<<`, `=======`, dan `>>>>>>>`, sehingga file `hello.txt` terlihat seperti ini:
+
+            Hello, world!
+            Ini adalah perubahan dari branch A.
+
+        2. Simpan perubahan tersebut.
+
+        3. Tandai file `hello.txt` sebagai resolved menggunakan perintah `git add`:
+
+            git add hello.txt
+
+        4. Lanjutkan proses merge dengan perintah `git merge --continue`:
+
+            git merge --continue
+
+        5. Kemudian lakukan commit untuk menyelesaikan proses merge:
+
+            git commit -m "Resolved conflict by choosing version from branch A"
+
+        Dengan langkah-langkah di atas, konflik pada file `hello.txt` telah berhasil diatasi dengan memilih versi dari branch A. Sekarang, proses merge telah selesai dan kita dapat melanjutkan pekerjaan kita seperti biasa.
