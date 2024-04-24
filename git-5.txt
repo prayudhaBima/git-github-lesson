@@ -1,0 +1,129 @@
+- Git Behind The Scenes - Hashing & Objects
+
+    - Objects Folder
+
+    The object directory berisi semua repo files. Directory ini merupakan tempat dimana Git menyimpan backup dari files, commit repo dan masih banyak lagi.
+
+    Semua files nya sudah dikompres dan juga di enkripsi sehingga tidak sedikit.
+
+    - SHA-1
+
+    Semua yang di enkripsi menggunakan metode SHA-1 akan menghasilkan 40 karakter acak hexadesimal yang bersifat deterministik. Yang dimaksud dengan deterministik adalah selama input (masukan) tidak berubah maka algoritma hash akan selalu menghasilkan keluaran yang sama, maka algoritma hashing akan selalu menghasilkan keluaran yang sama (disebut juga Digest atau Hash).
+
+    - Membuat hashing menggunakan perintah "git hash-object"
+
+    Contoh:
+
+        echo "hello" | git hash-object --stdin -w
+
+    Perintah diatas akan melakukan hashing pada kalimat "hello" dan akan menyimpan nya pada folder "objects" yang ada pada folder ".git". Dimana nama folder nya adalah karakter hasil hashing.
+
+        nama folder nya "ce"
+        isi folder nya adalah sisa 38 karakter hasil hashing "013625030ba8dba906f756967f9e9ca394464a"
+
+    Contoh:
+
+        git hash-object dogs.txt
+    
+    Perintah diatas akan melakukan hashing pada file dogs.txt. Hasil hashing tidak akan disimpan pada folder "objects" karena perhatikan pada perintah diatas kita tidak menggunakan opsi "-w".
+
+    Perlu diperhatikan ketika kita merubah isi dari file dogs.txt maka hasil hashing nya 40 karakter akan berubah.
+    
+    - Mengambil hasil dari hashing function yang dibuat dengan "git hash-object"
+
+    Kita dapat mengambil hasil hashing function yang dibuat dengan perintah "git hash-object" dengan cara:
+
+        git cat-file -p <object-hash>
+    
+    Opsi -p diatas digunakan untuk memberi tahu git agar menampilkan konten dari object hash berdasarkan tipenya.
+
+    Contoh:
+
+        git cat-file -p b0cdfc67dc35ea06d6bb63f39568ee1922d784af
+    
+    Bayangkan hash diatas merupakan hasil dari hashing function untuk file dogs.txt, maka perintah diatas akan menampilkan seluruh isi dari file dogs.txt tersebut.
+
+    - Melakukan restore data yang sudah dihapus dari file yang berada pada folder "objects"
+
+    Bayangkan kita tidak sengaja menghapus isi dari file yang ada didalam folder .git -> objects. Kita bisa menampilkan kembali isi dari file tersebut dengan menggunakan perintah:
+
+        git cat-file -p <object-hash> > nama-file
+
+    Perintah diatas membutuhkan hash id yang dihasilkan dari hash-object, dan juga tanda ">" serta nama file nya.
+
+        git cat-file -p b0cdfc67dc35ea06d6bb63f39568ee1922d784af > dogs.txt
+    
+    - Blob (binary large object)
+
+    Blob dalam Git adalah tipe objek yang digunakan untuk menyimpan konten dari file. Blobs hanya menyimpan isi konten dari file, blobs tidak menyimpan nama file atau path tempat konten tersebut berada. Nama file dan path disimpan di dalam pohon (tree) di Git. Jadi, secara teknis, blobs sendiri tidak mengandung informasi tentang nama file atau path.
+
+    Kenapa ada fitur git blob ?
+
+    Fitur Git blob sangat penting karena merupakan bagian inti dari cara Git menyimpan dan mengelola file. Setiap kali kita melakukan commit dalam Git, perubahan pada file disimpan dalam bentuk blob. Inilah yang memungkinkan Git untuk mengelola versi dari file kita.
+
+    Ada beberapa alasan mengapa Git menggunakan blobs:
+
+        1. Efisiensi Penyimpanan: Git menggunakan deduplikasi untuk menghemat ruang penyimpanan. Jika dua file memiliki konten yang identik, Git hanya akan menyimpan satu blob dengan konten itu, yang dapat digunakan oleh kedua file.
+
+        2. Integritas Data: Setiap blob diidentifikasi oleh hash SHA-1, yang berarti kontennya diamankan terhadap perubahan. Ini memungkinkan Git untuk memastikan integritas data yang disimpan.
+
+        3. Kecepatan Operasi: Dengan menyimpan konten file secara terpisah dari metadata lainnya, seperti nama file dan path, Git dapat melakukan operasi seperti perbandingan dan penggabungan (merge) dengan lebih efisien.
+
+        4. Perubahan yang Efisien: Ketika kita melakukan perubahan kecil pada file yang besar, Git hanya perlu menyimpan blob baru untuk bagian file yang berubah, bukan seluruh file yang diubah. Hal ini mengoptimalkan penggunaan penyimpanan.
+
+        5. Keterlacakannya: Setiap blob memiliki hash yang unik, sehingga Git dapat melacak perubahan file sepanjang waktu, bahkan jika nama file berubah.
+
+    Jadi, fitur Git blob menjadi bagian integral dari cara Git bekerja dan menyediakan manfaat dalam hal efisiensi, kecepatan, keamanan, dan keterlacakannya.
+
+    - Trees
+
+    Bayangkan jika kita memiliki sebuah proyek Git. Proyek itu bisa saja memiliki banyak file dan folder. Nah, "tree" dalam Git mirip dengan struktur direktori atau folder di komputer kita. Ini adalah cara Git mengatur dan menyimpan file dan folder dalam proyek kita.
+
+    Setiap kali kita melakukan commit dalam Git, Git membuat snapshot dari proyek kita. Di sinilah "tree" masuk. "Tree" merepresentasikan struktur direktori pada saat itu. Ini berisi informasi tentang nama file, jenis (blob untuk file atau tree untuk direktori), dan hash dari blob atau tree tersebut.
+
+    Contohnya, jika kita memiliki proyek dengan dua file, "index.html" dan "style.css", serta sebuah folder "images" dengan beberapa gambar di dalamnya, "tree" akan mencatat struktur ini. Misalnya:
+
+        - root
+            - index.html (blob)
+            - style.css (blob)
+            - images (tree)
+                - image1.jpg (blob)
+                - image2.png (blob)
+
+    Di sini, "root" adalah "tree" utama yang menunjukkan ke file-file dan folder yang ada dalam proyek. "index.html" dan "style.css" adalah blob yang berisi konten dari file-file tersebut. "images" adalah sebuah tree yang berisi blob yang merepresentasikan gambar-gambar yang ada dalam folder tersebut.
+
+    Jadi, secara sederhana, "tree" dalam Git adalah cara Git mengatur dan merepresentasikan struktur dari file dan folder dalam proyek kita, seperti daftar direktori di komputer kita.
+
+    Kita bisa melihat trees dengan menggunakan perintah:
+
+        git cat-file -p master^{tree}
+
+    Perlu diingat perintah git cat-file akan menampilkan git "objects". Pada contoh kode diatas "master^{tree}" syntax menunjukkan secara spesifik tree object yang mengarah ke master branch.
+
+    - Commit
+
+    Commit object menggabungkan sebuah tree object bersamaan dengan informasi tentang konteks yang mengacu pada tree terbaru. Commits menyimpan referensi ke commit parent nya, author, dan commit message.
+
+              hash-commit
+        ----------- | ----------
+        Commit      
+        ----------- | ----------
+        tree        | c34jhdsisds..
+        parent      | as763ujhsdk..
+        author      | Yudha
+        committer   | Yudha
+        ----------- | ----------
+         This is my commit message
+    
+    Kita dapat melihat diagram tersebut dengan menggunakan perintah git:
+    
+        git cat-file -p <hash-commit>
+
+    Perintah diatas akan menampilkan:
+
+        tree 9debc8c972f8b800fe9a0b1a3c2f2dfe702b4320                           <tree>
+        parent 3e35044361c724fb9e13ab0b0a0b2247ca2d2cf1                         <parent>
+        author Prayudha Bima <prayudhabima14@gmail.com> 1713951033 +0700        <author>
+        committer Prayudha Bima <prayudhabima14@gmail.com> 1713951033 +0700     <committer>
+
+        Add file dogs.txt                                                       <commit message>

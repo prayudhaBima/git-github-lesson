@@ -1,0 +1,85 @@
+- Git Reflogs
+
+    Git reflog adalah kependekan dari "reference logs". Ini adalah fitur yang sangat bermanfaat dalam Git yang menyimpan riwayat referensi (seperti HEAD dan cabang) yang telah diubah, bahkan jika kita telah melakukan reset atau checkout ke commit lain. Reflog membantu kita melacak perubahan yang dilakukan pada repositori kita, yang dapat berguna jika kita secara tidak sengaja menghapus atau kehilangan commit atau perubahan penting lainnya.
+
+    Berikut adalah beberapa hal yang perlu kita ketahui tentang Git reflog:
+
+        1. Apa itu Reflog?: Reflog adalah log yang mencatat semua perubahan pada referensi git dalam repositori kita. Ini mencakup perubahan pada HEAD (posisi saat ini kita dalam repositori), cabang (seperti master, develop, dll.), dan referensi lainnya seperti HEAD@{1}, HEAD@{2.weeks.ago}, dan seterusnya.
+
+        2. Mengakses Reflog: kita dapat mengakses reflog dengan perintah `git reflog`. Ini akan menampilkan entri reflog terbaru yang mencakup tanda waktu, aksi (seperti checkout, reset), dan referensi sebelum dan sesudah perubahan.
+
+        3. Memulihkan dengan Reflog: Jika kita secara tidak sengaja melakukan reset atau checkout dan ingin kembali ke commit sebelumnya, kita bisa menggunakan reflog untuk mendapatkan referensi ke commit tersebut. Misalnya, kita dapat menggunakan `git reset --hard HEAD@{1}` untuk kembali ke commit sebelumnya yang terdaftar dalam reflog.
+
+        4. Menyelidiki Riwayat: Reflog sangat berguna untuk menyelidiki riwayat perubahan dalam repositori kita. kita dapat melihat langkah-langkah yang telah kita ambil dan mengidentifikasi di mana mungkin terjadi kesalahan.
+
+        5. Perhatikan: Reflog hanya ada di lokal dan tidak ditransfer saat kita push atau pull dari repositori jarak jauh. Jadi, ini hanya berlaku untuk repositori lokal kita. Dan juga reflogs bisa expire. Git akan membersihkan entri yang sudah lama setelah 90 hari, namun hal ini bisa kita atur konfigurasinya.
+
+    Penting untuk diingat bahwa reflog adalah alat yang kuat tetapi juga berbahaya. Kita dapat dengan mudah mengembalikan keadaan repositori kita ke posisi yang tidak diinginkan jika tidak berhati-hati. Jadi, gunakan dengan bijak dan pastikan kita mengerti konsekuensinya sebelum menggunakan perintah yang mempengaruhi sejarah repositori kita.
+
+    - Reflogs References
+
+    We can access specific git refs is "name@{qualifier}". We can use this syntax to access specific ref pointers and can pass them to other commands including checkout, reset, and merge.
+
+    Example:
+
+        git reflog show HEAD@{2}
+    
+    Perintah diatas akan menampilkan log dari lokasi HEAD paling awal hingga lokasi HEAD@{2}
+
+        TIME QUALIFIER :
+
+        Every entry in the reference logs has a timestamp assosiated with it. We can filter reflogs entries by time/date by using time qualifiers like:
+
+            1.day.ago
+            3.minutes.ago
+            yesterday
+            Fri, 12 Feb 2021 14:06:21 -0800
+    
+    Example:
+
+        git reflog master@{one.week.ago}
+
+        git checkout bugfix@{2.days.ago}
+
+        git diff main@{0} main@{yesterday}
+
+    - Rescuing Lost Commits With Reflogs
+
+    Bayangkan kita telah melakukan reset untuk commit tertentu:
+
+        git reset --hard 3dcbea7
+
+    Anggap perintah diatas akan menghilangkan/menghapus HEAD terbaru, sehingga perubahan pada HEAD / commit terbaru akan hilang.
+
+    Lalu kita ingin mengembalikan commit yang sudah direset tersebut, kita dapat menggunakan reflogs, kita bisa menggunakan hash commit nya atau spesifik git refs nya "name@{qualifier}".
+    
+    Contoh:
+
+        git reset --hard master@{3}
+    
+    Perintah diatas akan mengembalikan HEAD ke commit yang telah di reset/dihapus sebelumnya "3dcbea7"
+
+
+- Writing Custom Git Aliases
+
+    - Membuat aliases untuk perintah "git status" yaitu "git s"
+
+        Menggunakan file ".gitconfig" :
+
+            [alias]
+                s = status  
+                #Tidak perlu menyertakan git, karena kita masih ingin mengetikkan git untuk "git s"
+        
+        Menggunakan terminal/command line :
+
+            "git config --global alias.s status"
+
+            Perintah diatas akan membuat alias untuk perintah "git status" sehingga kita bisa mengetikkan hanya seperti berikut:  "git s"
+    
+    - Menambahkan Argument untuk Alias
+
+        Contoh kita akan membuat alias untuk commit message, "commit -m"
+
+        "git config --global alias.cm commit -m"
+
+        Dengan menggunakan perintah diatas kita dapat mempersingkat penulisan <git commit -m "..."> menjadi <git cm "...">

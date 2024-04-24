@@ -1,0 +1,182 @@
+- Git Rebase
+
+    - Pengertian
+
+    Git rebase adalah salah satu alat yang sangat berguna dalam pengelolaan riwayat proyek kita di Git. Ini adalah proses untuk mengubah sejarah commit dalam repositori kita dengan cara mengambil rangkaian commit dari satu cabang dan menerapkan mereka ke cabang lain.
+
+    Jadi, bayangkan kita memiliki dua cabang dalam proyek kita, katakanlah "master" dan "feature". Misalnya, kita telah melakukan beberapa pekerjaan di cabang "feature" dan ingin menyelaraskannya dengan perubahan terbaru di "master". Daripada menggunakan git merge, kita dapat menggunakan git rebase untuk mengambil semua commit baru dari "master" dan menerapkannya di atas cabang "feature". Ini membuat sejarah commit menjadi lebih linier dan terorganisir dengan baik.
+
+        "perubahan pada master branch - perubahan pada feature branch"
+
+        Contoh penerapan git rebase, dimana kita ingin menyelaraskan branch master dengan branch feature kita.
+
+        Pada master branch kita ketikkan perintah:
+
+            "git switch feature"
+        
+        Lalu lakukan rebase dengan menggunakan perintah:
+
+            "git rebase master"
+
+    Penggunaan git rebase dapat bermanfaat untuk mengurangi pesan commit merge yang terlalu banyak jika kita menggunakan git merge dan membuat projek kita memiliki histori yang linier (tidak banyak cabang).
+
+    Namun, perlu diingat bahwa penggunaan git rebase harus dilakukan dengan hati-hati, terutama jika kita sedang bekerja dalam tim atau berbagi repositori dengan orang lain. Ini karena rebase mengubah sejarah commit, yang bisa mempengaruhi kolaborasi tim dan menyulitkan pencarian atau pemecahan masalah jika tidak digunakan dengan benar. Jadi, pastikan untuk memahami implikasinya sebelum menggunakan git rebase dalam proyek kita.
+
+        Contoh perubahan sejarah commit dapat dilihat pada branch yang melakukan rebase, dalam contoh ini adalah branch feature, dimana hash commit-commit yang ada pada branch feature akan berubah karena perubahan lokasi commit menjadi di akhir setelah commit branch master.
+
+        "perubahan pada master branch - perubahan pada feature branch"
+
+    - Kapan Waktu Yang Tepat Untuk "Tidak" Menggunakan git rebase ?
+
+    Saat kita sedang bekerja dalam tim atau berbagi repositori dengan orang lain jangan gunakan git rebase, ini karena rebase mengubah sejarah commit, yang bisa mempengaruhi kolaborasi tim dan menyulitkan pencarian atau pemecahan masalah jika tidak digunakan dengan benar. Jadi, pastikan untuk memahami implikasinya sebelum menggunakan git rebase dalam proyek kita.
+
+- Git Rebase Interactive
+
+    Menjalankan perintah git rebase dengan opsi -i, akan membuat git rebase masuk kedalam mode interaktif, yang memungkinkan kita untuk mengedit, menambah files, menghapus commit, dan yang lainnya. Perlu diperhatikan kita harus secara spesifik menjelaskan seberapa jauh histori commit yang ingin kita tulis ulang/rewrite.
+
+    Dan juga, perhatikan kita tidak melakukan rebashing ke branch lain. Namun kita melakukan rebashing kumpulan histori commit HEAD pada branch dimana HEAD itu berada. Cotoh perintah nya adalah:
+
+        git rebase -i HEAD~4
+    
+    Perintah diatas akan membuat kita masuk kedalam mode interaktif dimana kita bisa melakukan beberapa opsi seperti merubah commit message, menghapus commit, dan sebagainya.
+
+    pada contoh kali ini kita akan merubah commit message:
+
+        Pilih commit message mana yang ingin diubah pada mode interaktif git rebase.
+        Terdapat beberapa commands yang bisa digunakan pada mode interaktif git rebase, yaitu:
+
+            p, pick <commit> = use commit
+            r, reword <commit> = use commit, but edit the commit message
+            e, edit <commit> = use commit, but meld into previous commit
+            d, drop <commit> = remove commit
+
+        Contoh kita ubah commit message berikut:
+            
+            pick aaa3945 I added project files
+    
+        Menjadi:
+
+            reword aaa3945 add project files
+        
+        Setelah selesai dirubah, pada terminal git bash vs code ketik "esc" untuk berada pada mode command lalu ketikkan perintah ":wq" untuk keluar dari mode interaktif git rebase.
+
+        Setelah itu edit ulang commit message nya, lalu ketik lagi "esc" dan ":wq"
+    
+    Namun perlu diperhatikan saat kita menggunakan git rebase interaktif maka hash commit nya akan berubah.
+
+
+- Git Tags 
+
+    Git tags adalah referensi yang menunjukkan ke commit tertentu dalam repositori Git kita. Mereka biasanya digunakan untuk menandai titik-titik penting dalam sejarah repositori, seperti rilis software, versi yang stabil, atau perubahan besar lainnya.
+
+    Berikut adalah beberapa langkah dasar untuk menggunakan git tags:
+
+        Membuat Tag Baru:
+            Kita dapat membuat tag baru dengan perintah `git tag` diikuti oleh nama tag yang kita inginkan dan ID commit yang ingin kita tandai. Jika kita tidak menyebutkan ID commit, tag akan ditempatkan di HEAD (yaitu, commit terakhir).
+
+                git tag <nama_tag>
+
+        Jika kita ingin menandai commit tertentu:
+
+            git tag <nama_tag> <ID_commit>
+
+        Menampilkan Tag:
+            Kita dapat melihat daftar tag yang ada di repositori dengan perintah:
+
+                git tag
+            
+            Kita juga dapat mencari tags dengan pattern dengan perintah:
+
+                    git tag -l <pattern>
+
+                    git tag -l "*beta*"
+            
+                Perintah diatas akan menampilkan semua tags yang memiliki kata "beta"
+
+                    git tag -l "16*"
+
+                Perintah diatas akan menampilkan semua tags yang memiliki angka "16. . ."
+
+        Menghapus Tag:
+            Untuk menghapus tag, gunakan perintah `git tag -d` diikuti dengan nama tag yang ingin kita hapus.
+
+                git tag -d <nama_tag>
+
+        Mengirim Tag ke Repositori Jarak-jauh (Remote):
+            Jika kita ingin berbagi tag dengan repositori jarak-jauh, kita perlu mengirim tag tersebut secara eksplisit.
+
+                git push origin <nama_tag>
+
+        Mengambil Tag dari Repositori Jarak-jauh:
+            Untuk mengambil tag yang ada di repositori jarak-jauh ke repositori lokal Anda, gunakan perintah:
+
+                git fetch origin <nama_tag>
+
+    Catatan Penting:
+
+    - Saat membuat tag, pastikan untuk memberikan nama yang deskriptif dan mudah dimengerti, seperti `v1.0` untuk rilis pertama.
+    - Gunakan tag untuk menandai titik-titik yang penting dalam sejarah repositori kita, seperti rilis stabil atau revisi utama.
+
+    Dengan menggunakan git tags, kita dapat dengan mudah merujuk ke titik-titik tertentu dalam sejarah repositori kita, membuat manajemen versi lebih terorganisir dan memudahkan kolaborasi tim.
+
+    - 2 Tipe Git Tag
+
+    Terdapat 2 tipe git tag yang bisa kita gunakan, yaitu:
+
+        1. lighweight tags, ini adalah tags yang berisi nama/label yang mengacu pada beberapa commit tertentu.
+
+        2. annotated tags, ini adalah tags yang dapat berisi informasi tambahan seperti nama dan emai author, tanggal/waktu, dan tagging message (seperti sebuah commit message). Biasanya tags ini digunakan pada team yang besar. Untuk membuat annotated tags kita bisa menggunakan perintah seperti berikut:
+
+            git tag -a <tagname>
+
+        Perintah diatas akan membuka prompt editor untuk kita dapat menambahkan informasi tambahan mengenai tags yang baru saja dibuat. Lalu untuk melihat metadata/informasi tambahan yang dibuat dengan annotated tags, kita bisa menggunakan perintah:
+
+            git show <tagname>
+    
+    - Semantic Version dalam membuat git tags
+
+    Kita dapat membuat tag yang mengikuti aturan Semantic Versioning (SemVer) dengan format `<major>.<minor>.<patch>`. Di bawah ini adalah langkah-langkah untuk membuat tag Semantic Version:
+
+        1. Major Version: Peningkatan ketika kita membuat perubahan inkompatibel secara ke belakang dalam API kita.
+
+        2. Minor Version: Peningkatan ketika kita menambahkan fungsionalitas secara backward-compatible ke API kita.
+
+        3. Patch Version: Peningkatan ketika kita membuat perbaikan bug backward-compatible.
+
+        Contoh:
+            - 1.0.0: Versi awal.
+            - 1.1.0: Penambahan fungsionalitas baru yang backward-compatible.
+            - 1.1.1: Perbaikan bug kecil yang backward-compatible.
+
+        Berikut adalah langkah-langkah untuk membuat tag Semantic Version menggunakan git:
+
+            1. Major Version:
+
+                git tag 1.0.0
+
+            2. Minor Version:
+
+                git tag 1.1.0
+
+            3. Patch Version:
+
+                git tag 1.1.1
+
+    Kita dapat menyesuaikan nomor versi sesuai dengan tingkat perubahan yang kita buat dalam kode kita. Pastikan untuk membuat tag dengan format Semantic Versioning untuk memastikan kejelasan dan konsistensi dalam manajemen versi kita.
+
+    - Membandingkan perubahan pada masing-masing tags
+
+    Untuk mencari tahu perbedaan yang terjadi pada masing-masing tags version, kita dapat menggunakan perintah git diff seperti beriktu:
+
+        "git diff v17.0.0..v16.14.0"
+    
+
+    - Pushing Tags
+
+    Secara default, saat kita mem-push perubahan pada local repo ke remote repo (github), git push tidak akan menyertakan tags. Jika kita memiliki banyak tags dan ingin kita push sekaligus dalam satu waktu, kita bisa menggunakan opsi "--tags" pada perintah "git push", maka perintah tersebut akan mentransfer semua tags yang kita miliki pada local repo ke remote repo (github).
+
+        "git push --tags"
+    
+    Atau jika kita ingin mem-push beberapa tags saja tidak semuanya, kita bisa menggunakan perintah:
+
+        "git push <remote> <tagname>"
