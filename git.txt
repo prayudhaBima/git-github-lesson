@@ -1,0 +1,344 @@
+- Perbedaan Git dan Github
+
+    Git
+        Adalah sebuah software version control yang berjalan secara local pada komputer kita. Kita tidak 
+    perlu membuat sebuah akun untuk menggunakan git. Kita juga tidak perlu akses internet untuk bisa 
+    menggunakan git. Dan kita dapat menggunakan git tanpa menyentuh github.
+
+    Github
+        Adalah sebuah web service, yang menyimpan git repository pada cloud yang akan mempermudah antara 
+    satu orang dengan yang lainnya dalam proses kolaborasi. Dan kita memerlukan akses internet untuk 
+    menggunakan Github.
+
+- 2 Cara yang dapat dilakukan untuk berinteraksi dengan Git, yaitu :
+
+    1.  Melalui Terminal
+
+        Git was created as command line tool. To use it, we run various git commands in a Unix Shell.
+        This is not the most user friendly experience, but it's at the very core of Git !
+
+    2.  Melalui Graphical User Interface (GUI), seperti Pros, Cons dan sebagainya
+
+        Over the last few years, companies have created graphical user interface for Git that allow people
+        to use Git without having to be a command-line expert. Popular Git GUI :
+
+            - Github Desktop
+            - SourceTree
+            - Tower
+            - GitKraken
+            - Ungit
+
+- Menginstall Git di Windows
+
+    Karena Git berjalan pada sistem Unix, yang tidak dimiliki secara default oleh windows. Kita perlu
+    menginstall "git bash" karena git bash merupakan tool yang memungkinkan git dapat berjalan pada
+    sistem operasi windows.
+
+    Selanjutnya kita pergi ke halaman website resmi git, lalu download git dengan konfigurasi sistem
+    operasi yang sesuai dengan yang kita gunakan.
+
+    Setelah selesai mendownload, pada bagian "Choosing the default editor used by git" kita pilih
+    "Use visual studio code as git's default editor".
+
+- Mengatur Konfigurasi git
+
+    Membuat Nama dan juga Email untuk Git kita, agar pada saat melakukan kolaborasi dengan developer
+    lainnya, kita bisa tau siapa yang membuat perubahan dan yang lainnya melalui Nama dan juga Email Git 
+    nya.
+
+    Melakukan konfigurasi nama untuk git :
+
+        Mengecek Nama pada git, apakah sudah ada atau belum
+            git config user.name
+
+        Membuat Nama baru
+            git config --global user.name "Prayudha Bima"
+
+    Melakukan konfigurasi email untuk git :
+
+        Mengecek Email pada git, apakah sudah ada atau belum
+            git config user.email
+            
+        Membuat Email baru
+            git config --global user.email "prayudhabima14@gmail.com"
+
+- Terminal Crash Course
+
+    Mengenal beberapa perintah yang bisa digunakan pada terminal :
+
+    (Navigate)
+
+    ls, cd, pwd, start(windows) open(macOs)
+
+    ls, Ini adalah perintah untuk menampilkan daftar file dan direktori dalam sebuah direktori. Contoh :
+        ls
+    
+        ls juga bisa digunakan untuk mengecek isi direktori yang kita inginkan, Contoh :
+
+            ls Documents/
+    
+        Perintah diatas akan menampilkan file-file yang ada di direktori Documents/ 
+    
+    cd, Perintah ini digunakan untuk berpindah direktori. Contoh :
+        cd nama_direktori
+
+    pwd, Untuk menampilkan direktori kerja saat ini (path working directory). Contoh :
+        pwd
+
+    Perintah "start ." pada sistem operasi Windows digunakan untuk membuka File Explorer
+    (Windows Explorer) dan menampilkan isi dari direktori saat ini di jendela File Explorer.  
+    
+    start juga bisa digunakan untuk membuka file explorer dari direktori yang kita inginkan, contoh :
+
+        start Documents/
+    
+    Perintah diatas akan membuka file explorer dari direktori Documents/ dan menampilkan semua isi dari 
+    direktori tersebut
+
+    (Creating Files & Folders)
+
+    touch, mkdir
+
+    touch, Membuat file kosong baru. Contoh :
+        touch nama_file.txt
+
+    mkdir, Digunakan untuk membuat direktori/folder baru. Contoh :
+        mkdir nama_direktori_baru
+    
+    (Deleting Files & Folders )
+
+    rm, rm -rf  (r = recursive,  f = force)
+
+    rm, Menghapus file secara permanen, jadi harap hati-hati. Contoh :
+        rm nama_file.txt
+
+    rm -rf, Menghapus direktori/folder secara permanen, jadi harap hati-hati. Contoh :
+        rm -rf nama_direktori
+
+- Basic Git (Adding & Commiting)
+
+- Git Repository
+
+    Git repository adalah sebuah tempat penyimpanan yang digunakan untuk menyimpan kode program dan berkas-berkas terkait proyek yang dikelola menggunakan sistem kontrol versi Git. Repository ini menyimpan riwayat perubahan yang terjadi pada kode program, memungkinkan para pengembang untuk bekerja secara kolaboratif dan melacak perubahan-perubahan yang terjadi pada kode.
+
+    Repository Git dapat berada secara lokal di komputer pengembang, di server lokal dalam sebuah jaringan, atau di server yang terhubung ke internet, seperti GitHub, GitLab, Bitbucket, dan sebagainya
+    
+    - Untuk membuat git repository baru kita dapat menggunakan perintah :
+
+        git init
+    
+    Biasanya perintah git init hanya digunakan sekali saja, yaitu pada saat awal membuat repository untuk project baru.
+
+    - Kita dapat menghapus git repository yang telah kita buat dengan cara :
+
+        1. Masuk ke folder tempat dimana repository dibuat
+        2. Lalu ketikkan perintah, untuk menampilkan folder yang tersembunyi, yaitu : ls -a
+        3. Terdapat folder dengan nama ".git" yang berisi semua informasi tentang repository Git, termasuk riwayat perubahan, konfigurasi, dan lain-lain.
+        4. Selanjutnya kita hapus folder tersebut menggunakan perintah : rm -rf .git
+    
+    Harap diingat bahwa menghapus sebuah repository Git adalah tindakan permanen dan akan menghapus semua riwayat perubahan dan konfigurasi yang terkait dengan repository tersebut. Pastikan kita telah membackup data yang penting sebelum menghapus repository.
+
+    - Untuk melakukan pengecekan pada project kita, kita dapat menggunakan perintah :
+
+        git status
+
+    Ketika kita menjalankan perintah "git status" di dalam direktori yang terkait dengan repository Git, Git akan memberikan informasi tentang berkas-berkas yang telah diubah, berkas yang sudah ditambahkan ke staging area (area persiapan), serta informasi tentang branch mana yang sedang digunakan.
+
+    - Hal yang perlu diperhatikan saat ingin membuat git repository
+
+    Secara default git akan melakukan pengecekan history semua perubahan yang ada didalam folder repository yang sudah kita buat, termasuk jika didalam folder tersebut terdapat nested folder. Jadi jangan membuat repository baru lagi pada nested folder tersebut. Lakukan pengecekan menggunakan "git status" untuk mengecek apakah kita sedang berada pada sebuah repository atau tidak, sebelum kita membuat repository baru.
+
+    Jadi pastikan kita hanya membuat 1 repository untuk 1 project.
+
+- Commiting
+
+    Perintah "git commit" digunakan untuk menyimpan perubahan yang telah kita buat pada berkas atau proyek kita ke dalam repository Git. Ketika kita menggunakan perintah ini, kita sedang membuat "snapshot" dari perubahan-perubahan tersebut pada saat itu dan menyimpannya dalam sejarah riwayat perubahan Git.
+
+    Secara sederhana, "git commit" memungkinkan kita untuk:
+
+    1. Menyimpan perubahan: Ketika kita telah melakukan perubahan pada berkas atau proyek kita, kita menggunakan "git commit" untuk menyimpan perubahan tersebut ke dalam repository. Ini seperti menyimpan versi terbaru dari proyek kita pada titik waktu tertentu.
+
+    2. Meninggalkan catatan atau pesan: Ketika kita melakukan commit, kita juga diminta untuk meninggalkan pesan yang menjelaskan perubahan-perubahan yang kita buat. Pesan ini membantu kita dan rekan tim kita memahami apa yang telah berubah dan mengapa perubahan itu dilakukan.
+
+    3. Membuat titik balik: Setiap commit yang kita buat menciptakan titik balik dalam sejarah perubahan proyek kita. Ini memungkinkan kita untuk kembali ke versi sebelumnya jika diperlukan, membandingkan perubahan antara commit-commit, atau membagikan kemajuan kita dengan tim.
+
+    Jadi, secara singkat, "git commit" adalah cara untuk menyimpan perubahan-perubahan kita dalam repository Git, memberikan deskripsi singkat tentang apa yang telah kita lakukan, dan memungkinkan kita untuk mengelola riwayat perubahan proyek kita dengan mudah.
+
+    Kita juga dapat melakukan grouping untuk perubahan-perubahan yang telah kita lakukan tidak hanya pada 1 file, tetapi bisa lebih dari itu dalam 1 kali commit. Contoh :
+
+        Kita melakukan perubahan-perubahan yaitu : 
+            
+                1 kali menghapus file
+                2 kali merubah isi file
+                4 kali membuat file baru
+        
+    Nah, perubahan-perubahan tersebut bisa kita group dan kita hanya perlu melakukan 1 kali commit saja. Jadi tidak perlu melakukan 1 commit untuk 1 perubahan.
+
+    - Git add
+
+    Secara singkat, perintah "git add" digunakan untuk menambahkan perubahan pada berkas ke dalam staging area dalam Git. 
+
+    1. Menyiapkan perubahan: Ketika Anda melakukan perubahan pada berkas di dalam proyek Git, perubahan tersebut belum secara otomatis disimpan atau dicatat oleh Git. Git membutuhkan langkah tambahan untuk menentukan perubahan mana yang ingin Anda sertakan dalam commit berikutnya.
+
+    2. Menambahkan perubahan: Dengan menggunakan perintah "git add", Anda memberitahu Git bahwa Anda ingin menyertakan perubahan tertentu dalam commit berikutnya. Ini seperti memilih perubahan-perubahan yang akan disimpan secara permanen.
+
+    3. Staging area: Perubahan yang telah ditambahkan dengan "git add" ditempatkan dalam staging area, yang merupakan langkah persiapan sebelum melakukan commit. Ini memungkinkan Anda untuk memilih perubahan yang ingin Anda sertakan dalam commit dengan lebih selektif.
+
+    Jadi, secara singkat, "git add" adalah langkah yang diperlukan untuk memilih perubahan yang akan disertakan dalam commit berikutnya, sehingga memungkinkan Anda untuk mengontrol dengan lebih baik apa yang akan masuk ke dalam riwayat perubahan proyek Anda.
+
+- Git Add & Git Commit
+
+    Berikut ini adalah contoh alur kerja umum dalam Git, yang melibatkan penggunaan perintah "git add" dan "git commit" untuk menyimpan perubahan ke repository:
+
+    Working Directory: Ini adalah direktori tempat Anda melakukan pekerjaan dan membuat perubahan pada berkas proyek Anda. Misalnya, Anda membuat atau mengedit berkas di sini.
+
+    Staging Area: Setelah Anda melakukan perubahan pada berkas, Anda harus menambahkan perubahan tersebut ke staging area sebelum Anda bisa menyimpannya ke dalam repository Git. Ini memungkinkan Anda untuk memilih perubahan mana yang ingin Anda sertakan dalam commit berikutnya.
+
+    Repository: Ini adalah lokasi di mana riwayat perubahan proyek Anda disimpan secara permanen. Ketika Anda melakukan commit, perubahan yang telah Anda tambahkan ke staging area akan disimpan dalam repository.
+
+    - Berikut adalah contoh alur kerja beserta penggunaan "git add" dan "git commit":
+
+        1. Anda melakukan perubahan pada berkas "example.txt" di dalam working directory.
+
+        2. Setelah selesai melakukan perubahan, Anda menjalankan perintah:
+
+            git add example.txt
+
+        Atau jika ingin memindahkan "semua" perubahan yang ada diworking directory ke staging index kita bisa menggunakan perintah :
+
+            git add .
+
+        Perintah ini akan menambahkan perubahan pada berkas "example.txt" ke dalam staging area. Sekarang perubahan tersebut telah disiapkan untuk dicommit
+
+        3. Anda kemudian menjalankan perintah:
+
+            git commit -m "Menambahkan baris baru pada example.txt"
+
+        Perintah ini membuat commit yang berisi perubahan yang telah ditambahkan ke staging area. Pesan komit ("-m") "Menambahkan baris baru pada example.txt" memberikan deskripsi singkat tentang perubahan yang dilakukan.
+
+        4. Setelah melakukan commit, perubahan tersebut secara resmi disimpan dalam repository Git. Ini termasuk riwayat perubahan yang terkait dengan berkas "example.txt" dan pesan komit yang Anda berikan.
+    
+- Git restore <nama_file>
+
+    Ketika kita masih berada pada "working directory", lalu ingin membatalkan perubahan yang telah kita buat pada file kita. Kita bisa menggunakan perintah :
+
+        git restore nama_file
+
+        (use "git restore <file>..." to discard changes in working directory)
+
+- Git log
+
+    Untuk mengecek riwayat perubahan yang telah kita lakukan dalam repository Git, kita dapat menggunakan perintah :
+
+        git log
+
+    Perintah ini akan menampilkan riwayat komit (commit history) dari repository Git yang sedang Anda kerjakan. Setiap entri dalam daftar tersebut akan mencakup informasi seperti:
+
+        Commit hash: Identifikasi unik untuk setiap commit.
+        Author: Nama dan alamat email dari orang yang melakukan commit.
+        Date: Tanggal dan waktu ketika commit dilakukan.
+        Commit message: Pesan yang ditinggalkan oleh pengguna untuk menjelaskan perubahan yang dilakukan dalam commit tersebut.
+
+    Untuk melihat log dengan format yang lebih ringkas atau tersusun secara grafis, Anda dapat menggunakan opsi tambahan dengan perintah "git log". Contohnya:
+
+        git log --oneline
+    
+    Untuk keluar dari tampilan git log kita harus menekan tombol "q" pada keyboard.
+
+- Atomic Commit
+
+    Dalam konteks Git, atomic commit berarti bahwa setiap commit hanya mengandung perubahan yang berkaitan dengan satu fitur, perbaikan bug, atau perubahan logis tertentu, dan tidak mencampurkan perubahan-perubahan yang tidak terkait. Ini membuat riwayat perubahan menjadi lebih terstruktur dan mudah dipahami.
+
+    Beberapa prinsip atomic commit yang penting dalam Git adalah:
+
+    1. Satu fitur per commit: Setiap commit sebaiknya hanya berisi perubahan yang berkaitan dengan satu fitur tertentu. Ini membantu dalam melacak perubahan dan memahami evolusi proyek dengan lebih baik.
+
+    2. Konsistensi dan kejelasan: Pesan commit harus jelas dan menggambarkan perubahan yang dilakukan dengan ringkas. Ini membantu anggota tim yang lain untuk memahami perubahan yang dilakukan tanpa perlu menganalisis detail perubahan kode.
+
+    3. Reversibilitas: Setiap commit harus dapat dipertimbangkan untuk dibatalkan atau di-revert jika diperlukan. Dengan memastikan commit adalah unit yang mandiri dan terisolasi, proses revert menjadi lebih mudah dan aman dilakukan.
+
+    Prinsip atomic commit sangat penting dalam pengembangan perangkat lunak kolaboratif dan dapat membantu dalam mencegah masalah seperti konflik yang kompleks, mempermudah proses review kode, dan memperbaiki bug.
+
+- Rekomendasi Dalam Membuat Commit Message
+
+    Yang pertama yaitu Present Tense Imperative Style :
+    
+    Gaya present tense imperative style dalam menulis sebuah commit message pada Git mengacu pada penggunaan kata kerja dalam bentuk present tense (waktu sekarang) dan bentuk imperatif (perintah). Ini memungkinkan pesan commit untuk terdengar seperti instruksi atau perintah kepada pembaca tentang apa yang dilakukan oleh commit tersebut.
+
+    Contoh gaya present tense imperative style dalam commit message:
+
+        1. "Add feature to login form"
+        2. "Fix typo in header section"
+        3. "Update user authentication mechanism"
+        4. "Remove redundant code in main function"
+
+    Dalam contoh-contoh di atas, kata kerja seperti "Add", "Fix", "Update", dan "Remove" digunakan dalam bentuk present tense dan memberikan instruksi jelas tentang tindakan yang dilakukan oleh commit tersebut.
+
+    Gaya present tense imperative style membantu dalam menjaga konsistensi dan kejelasan dalam riwayat perubahan proyek, serta memudahkan pembaca untuk memahami dengan cepat apa yang dilakukan oleh setiap commit.
+
+- Redo commit with "git commit --amend"
+
+    Perintah "git commit --amend" digunakan untuk memperbaiki atau mengubah komit terakhir kita sebelum kita mem-push perubahan kita ke repository yang terpusat (seperti GitHub, GitLab, atau Bitbucket). Ini memungkinkan kita untuk menambahkan perubahan tambahan, mengedit pesan komit, atau bahkan mengubah berkas-berkas yang telah di-commit.
+
+    Perlu diingat bahwa perintah ini hanya bisa dilakukan untuk memperbaiki atau mengubah commit terakhir, jadi tidak bisa dilakukan untuk commit yang sudah lama.
+
+    Berikut adalah beberapa kegunaan utama dari perintah "git commit --amend":
+
+    1. Mengubah pesan komit: kita dapat menggunakan opsi "--amend" untuk mengubah pesan komit dari komit terakhir. Misalnya, kita telah melakukan komit dengan pesan "Initial commit", dan kita ingin mengubah pesan tersebut menjadi "First commit". kita dapat menggunakan "git commit --amend" sebagai berikut:
+
+        git commit --amend -m "First commit"
+
+    2. Menambah perubahan tambahan: Jika kita telah melakukan perubahan tambahan setelah terakhir kali kita melakukan commit dan ingin menyertakan perubahan tersebut ke dalam komit terakhir, kita dapat menambahkan perubahan tersebut ke staging area menggunakan "git add", dan kemudian menjalankan "git commit --amend". Ini akan menggabungkan perubahan tambahan tersebut dengan komit terakhir kita. Misalkan kita telah menambahkan berkas "index.html". kita dapat menambahkan berkas tersebut ke staging area dengan menggunakan "git add" dan kemudian menjalankan "git commit --amend":
+
+        git add index.html
+        git commit --amend
+
+    3. Mengubah berkas-berkas yang telah di-commit: Dengan opsi "--amend", kita juga dapat mengubah berkas-berkas yang telah di-commit. Misalkan kita telah melakukan komit, tetapi kemudian menyadari bahwa kita perlu mengubah berkas yang telah kita commit. Misalnya, kita ingin menambahkan baris baru ke dalam berkas "README.md". kita dapat mengedit berkas tersebut dan kemudian menambahkannya ke staging area menggunakan "git add" dan kemudian menjalankan "git commit --amend":
+
+        // Edit berkas README.md
+        git add README.md
+        git commit --amend
+
+    Perintah diatas akan menggabungkan perubahan pada berkas "README.md" dengan komit terakhir kita.
+
+    Penting untuk diingat bahwa penggunaan "git commit --amend" sebaiknya hanya dilakukan untuk memperbaiki komit terakhir yang belum dipush. Jika komit tersebut sudah dipush ke repository yang terpusat dan dibagikan dengan orang lain, mengubah sejarah komit dapat menyebabkan masalah dalam kerja kolaboratif. Oleh karena itu, gunakanlah dengan hati-hati dan pastikan bahwa Anda memahami konsekuensinya.
+
+    Ketika telah selesai melakukan perubahan pada terminal, kita bisa menekan "esc" setelah itu ":wq" untuk keluar dari "git commit --amend"
+
+- Ignoring file with .gitignore
+
+    File ".gitignore" dalam Git digunakan untuk memberi tahu Git file-file atau direktori yang seharusnya diabaikan atau diabaikan dalam proses pelacakan (tracking). Ini berarti bahwa file-file yang terdaftar dalam ".gitignore" tidak akan ditambahkan ke dalam repository Git, bahkan jika kita menjalankan perintah "git add ." atau "git add -A". ".gitignore" biasanya dibuat diroot folder.
+
+    Fungsi utama dari ".gitignore" adalah:
+
+    1. Mengabaikan file sementara: kita dapat menggunakan ".gitignore" untuk mengabaikan file-file yang dihasilkan sementara selama proses kompilasi, seperti file objek, file hasil build, atau file log.
+
+    2. Mengabaikan file konfigurasi lokal: Beberapa proyek mungkin memiliki file konfigurasi lokal yang berbeda antara pengembang, misalnya file konfigurasi IDE atau file lokal yang berisi kredensial. Dengan menggunakan ".gitignore", kita dapat memastikan bahwa file-file ini tidak akan disertakan dalam riwayat perubahan proyek.
+
+    3. Mengabaikan file baku (raw) atau besar: Ada situasi di mana kita mungkin memiliki file yang sangat besar atau baku (raw) yang tidak ingin kita sertakan dalam repository Git karena dapat mengakibatkan repository menjadi berat. kita dapat menambahkan file-file ini ke dalam ".gitignore" untuk menghindari masalah tersebut.
+
+    4. Memudahkan kerja kolaboratif: Dengan menggunakan ".gitignore", kita dapat memastikan bahwa setiap anggota tim memiliki lingkungan pengembangan yang seragam dan terhindar dari konflik karena file-file lokal yang berbeda.
+
+    Contoh isi dari ".gitignore":
+
+    # Membuat .gitignore
+        Cara menggunakan .gitignore kita dapat langsung membuat file ".gitignore" pada root folder, setelah itu kita masukkan file-file ataupun folder yang ingin di ignore.
+
+    # Mengabaikan file objek hasil kompilasi semua (*) yang bereksetensi (.o) (.a) (.so) (.txt)
+        *.o
+        *.a
+        *.so
+        *.txt
+
+    # Mengabaikan file hasil build dari direktori bin
+        /bin/
+
+    # Mengabaikan file konfigurasi lokal
+        config.ini
+
+    # Mengabaikan file log
+        logs/
+
+    Dengan menggunakan ".gitignore", kita dapat membersihkan dan mempertahankan repository Git kita agar hanya berisi file-file yang penting untuk pengembangan proyek, sambil mengabaikan file-file yang tidak diperlukan atau yang dapat menyebabkan kekacauan.
+
+    Kita dapat melihat rekomendasi file-file atau folder apa saja yang biasanya di ignore pada suatu bahasa tertentu contohnya phyton ataupun javascript, pada web "gitignore.io".
