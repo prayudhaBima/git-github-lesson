@@ -1,0 +1,194 @@
+- Git Collaboration Workflows
+
+    Terdapat beberapa alur kerja (workflow) ketika berkolaborasi dengan orang lain menggunakan git.
+
+    Berikut adalah beberapa alur kerja kolaboratif umum yang digunakan dalam Git:
+
+        1. Alur Kerja Sentralisasi (Centralized Workflow):
+            - Semua pekerjaan dikirimkan ke satu repositori sentral.
+            - Setiap anggota tim menarik (pull) perubahan dari repositori pusat dan mengirimkan (push) perubahannya kembali ke sana.
+            - Ini cocok untuk tim kecil dengan struktur hierarkis yang jelas.
+
+        2. Alur Kerja Cabang (Feature Branch Workflow):
+            - Setiap fitur atau perbaikan bug dikembangkan di cabang (branch) terpisah.
+            - Tim bekerja pada cabang-cabang tersebut secara independen.
+            - Setelah selesai, cabang tersebut digabungkan (merged) kembali ke cabang utama (biasanya `master` atau `main`).
+
+            Contoh:
+
+            Terdapat 2 user/akun github, pamela dan david. pamela mengerjakan fitur pada branch (animated-scroll) dan david mengerjakan fitur pada branch (create-dark-theme).
+
+            Ketika keduanya memulai dengan remote repo yang sama, lalu masing-masing pamela dan david membuat branch baru untuk mengerjakan fitur yang berbeda (animated-scroll) dan (create-dark-theme). 
+            
+            Ketika david ingin meminta bantuan kepada pamela untuk mengecek fitur yang dibuat david, david dapat mem-push pekerjaan nya ke remote repo (github) ke branch fitur nya sendiri, (create-dark-theme) branch. 
+            
+            Kemudian pamela dapat melakukan pengecekan dengan mengambil remote repo github dengan perubahan terbaru yaitu pada branch (create-dark-theme) yang dibuat david, dengan menggunakan perintah "fetch" terlebih dahulu, setelah itu berpindah ke origin/branch-create-dark-theme bisa dalam mode Detached HEAD ("git checkout origin/branch-create-dark-theme") atau "git switch branch-create-dark-theme" (Remote Tracking Branch Teknik). 
+            
+            Kenapa pamela tidak menggunakan "pull" karena pamela tidak ingin pekerjaan fitur nya pada branch (animated-scroll) tertimpa.
+
+            Setelah fitur yang dikerjakan oleh keduanya selesai, mereka dapat melakukan merge branch mereka ke branch utama master/main. Terdapat beberapa opsi yang perlu dilakukan untuk melakukan merge, yaitu:
+
+                1. Merge at will, without any sort of discussion with teammates. Just do it whenever you want. Which is will make a lot of trouble, because no coordination.
+                2. Send an email or chat message or something to your team to discuss if the changes should be merged in.
+                3. Pull Request!
+
+        3. Alur Kerja Fork dan Pull Request (Forking Workflow):
+            - Setiap kontributor membuat salinan (fork) repositori utama ke akun mereka sendiri.
+            - Mereka bekerja di repositori fork tersebut, membuat perubahan, dan mengirimkan permintaan tarik (pull request) ke repositori utama.
+            - Pemilik repositori utama meninjau perubahan dan menggabungkannya jika sesuai.
+
+        4. Alur Kerja Gitflow:
+            - Menggunakan beberapa jenis cabang untuk mengatur siklus hidup pengembangan perangkat lunak.
+            - Ada cabang `master` untuk produksi stabil, `develop` untuk pengembangan berkelanjutan, serta cabang `feature`, `release`, dan `hotfix` untuk fitur, rilis, dan perbaikan cepat.
+
+        5. Alur Kerja GitLab Flow:
+            - Mirip dengan Gitflow, tetapi lebih sederhana.
+            - Menggunakan satu cabang `master` untuk rilis dan satu cabang `production` yang menandai versi produksi saat ini.
+
+    Pilihlah alur kerja yang paling sesuai dengan kebutuhan dan struktur tim kita. Ingatlah untuk selalu berkomunikasi dengan tim kita agar semua dapat bekerja dengan efisien.
+
+    - Pull Request
+
+    Pull Request berbeda dengan perintah "git pull <remote> <branch>".
+
+    Pull request adalah fitur yang umumnya terdapat dalam platform pengelolaan kode seperti GitHub, GitLab, atau Bitbucket. Ini memungkinkan kontributor untuk mengusulkan perubahan kode kepada pemilik repositori, dengan memberikan pemilik repositori kesempatan untuk meninjau, memeriksa, dan menerima atau menolak perubahan tersebut sebelum diintegrasikan ke dalam repositori utama.
+
+    Berikut adalah contoh alur kerja kolaborasi yang menggunakan pull request di GitHub:
+
+        1. Fork Repositori: Kontributor yang ingin membuat perubahan pada repositori yang ada akan melakukan fork repositori tersebut. Ini akan membuat salinan repositori di akun GitHub mereka sendiri.
+
+        2. Kloning Repositori: Setelah melakukan fork, kontributor akan mengkloning repositori dari akun mereka ke komputer lokal mereka menggunakan perintah git clone.
+
+            git clone https://github.com/username/repo.git
+
+        3. Membuat Cabang (Branch): Kontributor akan membuat cabang baru di repositori lokal mereka untuk menambahkan fitur atau memperbaiki bug. Ini memungkinkan mereka untuk bekerja secara terpisah dari cabang utama repositori dan menghindari mempengaruhi kode utama.
+
+            git checkout -b fitur-baru
+
+        4. Menerapkan Perubahan: Kontributor akan melakukan perubahan pada kode di dalam cabang fitur-baru sesuai dengan tujuan mereka.
+
+        5. Menyimpan Perubahan dan Melakukan Commit: Setelah perubahan dilakukan, kontributor akan menyimpan perubahan ke repositori lokal mereka dan melakukan commit dengan pesan yang jelas yang menjelaskan perubahan yang dilakukan.
+
+            git add .
+            git commit -m "Menambahkan fitur baru XYZ"
+
+        6. Mendorong Perubahan: Setelah melakukan commit, kontributor akan mendorong cabang fitur-baru mereka ke repositori di GitHub mereka sendiri.
+
+            git push origin fitur-baru
+
+        7. Membuat Pull Request: Setelah cabang fitur-baru telah ditepush ke repositori di GitHub, kontributor akan membuat pull request dari cabang fitur-baru mereka ke cabang utama repositori yang ingin mereka kontribusikan.
+
+        8. Meninjau Pull Request: Pemilik repositori akan diberi pemberitahuan tentang pull request baru. Mereka dapat meninjau perubahan yang diajukan, melakukan diskusi jika diperlukan, dan meminta perubahan tambahan.
+
+        9. Menerima atau Menolak Pull Request: Setelah pemilik repositori puas dengan perubahan yang diajukan, mereka dapat menerima pull request. Ini akan mengintegrasikan perubahan ke dalam repositori utama. Atau, jika perubahan tidak sesuai atau ada masalah, pemilik repositori dapat menolak pull request.
+
+        10. Sinkronisasi Repositori: Setelah pull request diterima, jika kontributor ingin terus berkolaborasi atau melakukan perubahan lebih lanjut, mereka harus menyesuaikan cabang mereka dengan cabang utama repositori untuk memastikan mereka memiliki versi terbaru dari kode.
+
+            git pull upstream master
+
+    Inilah alur kerja umum yang digunakan oleh banyak tim untuk berkolaborasi menggunakan pull request di platform seperti GitHub. Ini memungkinkan untuk kontrol yang lebih baik terhadap perubahan yang diajukan dan memungkinkan diskusi serta revisi sebelum integrasi ke dalam kode utama.
+
+    - Jika terjadi konflik saat melakukan merge menggunakan Pull Request.
+
+    Kita dapat menyelesaikan konflik langsung pada github atau secara lokal di lokal repo kita.
+
+    Lokal repo:
+
+        Langkah pertama:
+        1. Jalankan perintah: "git fetch origin" on root branch (master/main)
+        2. Jalankan perintah: "git switch <nama feature branch yang ingin ditarik (pull)>"
+        3. Jalankan perintah: "git merge main" pada feature branch yang berhasil dibuat dan diaktifkan pada langkah sebelumnya (2). Lalu selesaikan konflik yang terjadi. Jika tidak terjadi konflik kemungkinan pada main branch belum menerapkan perubahan terbaru "Your branch is behind 'origin/main' by N commit.. " sehingga kita perlu melakukan "git pull origin main" untuk mendapatkan perubahan terbaru.
+
+        Langkah kedua:
+        4. Jalankan perintah: "git switch master/main" untuk berpindah ke base branch
+        5. Jalankan perintah: "git merge feature-branch" setelah kita berada pada master/main branch agar fitur pada branch feature-branch dapat diterapkan pada root/base branch yaitu master/main.
+        6. Jalankan perintah: "git push origin master/main" agar remote repo (github) kita menjadi up to date.
+
+    - Configuring Branch Protection Rules
+
+    Menerapkan aturan perlindungan cabang (branch protection rules) pada saat melakukan pull request adalah cara yang baik untuk meningkatkan keamanan dan kualitas kode dalam repositori. Aturan perlindungan ini memastikan bahwa perubahan yang diajukan melalui pull request telah melewati serangkaian pengujian atau persyaratan sebelum diintegrasikan ke dalam cabang utama repositori. Berikut adalah langkah-langkah umum untuk menerapkan aturan perlindungan cabang pada saat melakukan pull request di GitHub:
+
+        1. Buka Pengaturan Repositori: Pergi ke halaman repositori di GitHub dan klik pada tab "Settings" di bagian atas halaman.
+
+        2. Pilih "Branches": Di menu sisi kiri, pilih opsi "Branches". Ini akan membawa kita ke halaman pengaturan cabang repositori.
+
+        3. Pilih Cabang yang Akan Dilindungi: Pilih cabang utama repositori yang ingin kita lindungi, misalnya, "master" atau "main".
+
+        4. Aktifkan Perlindungan Cabang: Di bawah nama cabang yang dipilih, centang kotak "Require pull request reviews before merging". Ini akan memaksa setiap pull request untuk cabang tersebut untuk melewati tinjauan sebelum dapat digabungkan.
+
+        5. Atur Aturan Tinjauan: Setelah kita mengaktifkan perlindungan cabang, kita dapat menyesuaikan aturan tinjauan sesuai kebutuhan. kita dapat menentukan jumlah tinjauan yang diperlukan, siapa yang dapat meninjau (misalnya, administrator, atau tim tertentu), dan apakah perubahan kode harus lulus tes otomatis sebelum diizinkan untuk digabungkan.
+
+        6. Aktifkan Perlindungan Tambahan (Opsional): Selain tinjauan pull request, kita juga dapat mengaktifkan aturan tambahan seperti perlindungan dari konflik linting atau aturan lainnya yang didefinisikan dalam alur kerja pengembangan kita.
+
+        7. Simpan Pengaturan: Setelah kita selesai mengatur aturan perlindungan cabang, pastikan untuk mengklik tombol "Save changes" atau setara untuk menyimpan pengaturan kita.
+
+    Dengan menerapkan aturan perlindungan cabang seperti ini, kita dapat meningkatkan kualitas dan keamanan kode dalam repositori kita dengan memastikan bahwa setiap perubahan melalui pull request telah diperiksa dan disetujui oleh anggota tim sebelum diintegrasikan ke dalam cabang utama.
+
+    - Fork
+
+    Fitur "fork" di GitHub digunakan untuk membuat salinan dari suatu repositori ke repositori baru di akun kita sendiri. Ini memberi kita fleksibilitas untuk bekerja pada proyek tanpa memengaruhi repositori aslinya. Misalnya, kita dapat melakukan perubahan pada salinan (fork) proyek dan kemudian mengusulkan perubahan tersebut kembali ke proyek aslinya melalui proses yang disebut "pull request". Dengan "fork", kita dapat berkontribusi pada proyek open source atau menyimpan versi proyek untuk pengembangan pribadi tanpa mengubah repositori utama.
+
+    Saat kita memilih fitur "fork" pada github, kita akan menyalin seluruh remote repositori orang lain menjadi milik kita. Contoh terdapat repo dengan nama "colt/React", lalu pada repo tersebut kita pilih/klik menu "fork" maka hal tersebut akan menyalin repo tersebut menjadi milik kita dengan nama "yudha/React".
+
+    Perbedaan utama antara "fork" dan "clone" di GitHub adalah:
+
+        1. Fork:
+            - "Fork" membuat salinan lengkap repositori di akun GitHub kita sendiri.
+            - Kita dapat melakukan perubahan pada salinan tersebut tanpa memengaruhi repositori aslinya.
+            - Kita dapat mengirimkan "pull request" untuk mengusulkan perubahan kembali ke repositori aslinya.
+
+        2. Clone:
+            - "Clone" membuat salinan lokal dari repositori di komputer kita.
+            - Ini berguna ketika kita ingin mengunduh repositori ke komputer lokal kita untuk bekerja secara offline atau membuat perubahan lokal tanpa memengaruhi repositori aslinya di GitHub.
+            - Kita tidak dapat langsung melakukan perubahan dan mengirimkannya kembali ke repositori aslinya. kita perlu melakukan "push" ke repositori di GitHub setelah kita selesai membuat perubahan.
+
+    Jadi, intinya adalah "fork" digunakan untuk membuat salinan repositori di GitHub untuk bekerja secara kolaboratif, sementara "clone" digunakan untuk mengunduh salinan repositori ke komputer lokal kita untuk bekerja secara lokal.
+
+    - The Fork & Clone Workflow
+
+    Kita bisa menggunakan fitur "fork" dan "clone" bersama-sama untuk mengoptimalkan proses kerja kita, terutama dalam proyek-proyek yang melibatkan kolaborasi dan pengembangan lokal.
+
+    Misalnya, kita dapat melakukan langkah-langkah berikut:
+
+        1. Fork Repositori:
+            - Fork repositori yang ingin kita kerjakan di GitHub.
+            - Ini akan membuat salinan repositori di akun GitHub kita sendiri.
+
+        2. Clone Forked Repositori:
+            - Clone salinan forked repositori ke komputer lokal kita menggunakan perintah `git clone`.
+            - Dengan melakukan ini, kita akan memiliki salinan repositori di komputer lokal kita untuk bekerja secara offline atau melakukan perubahan lokal.
+
+        3. Sinkronisasi dengan Repositori Asli:
+            - Tambahkan repositori asli (yang telah kita fork) sebagai "remote" di repositori lokal kita dengan menggunakan perintah `git remote add` / `git remote add upstream <URL-repo-asli>`.
+            - Dengan melakukan ini, kita dapat memperbarui repositori lokal kita dengan perubahan yang dilakukan di repositori asli.
+
+        4. Mengirimkan Perubahan Kembali ke Repositori Asli:
+            - Setelah kita melakukan perubahan di repositori lokal, lakukan "commit" dan "push" ke forked repositori di akun GitHub kita menggunakan perintah `git commit` dan `git push`.
+            - Kemudian, dari forked repositori kita di GitHub, kita dapat membuat "pull request" untuk mengusulkan perubahan kita kembali ke repositori asli.
+
+    Dengan menggunakan "fork" untuk bekerja secara kolaboratif dan "clone" untuk bekerja secara lokal, kita dapat memanfaatkan fitur-fitur ini untuk mengembangkan proyek dengan lebih efisien dan terstruktur.
+
+    - Skenario Fork dan Clone Workflow
+
+    Anggap kita memiliki 2 user/github, colt dan stevie. Dimana colt memiliki original repo yang nanti akan di fork oleh stevie.
+
+        Stevie Github:
+            1. Melakukan fork dari original repo github milik colt
+
+        Stevie Local Repo:
+            1. Melakukan clone dari remote repo (github) stevie
+            2. Membuat second remote dengan nama "upstream" dengan cara: "git add remote upstream"
+
+                Keterangan: second remote "upstream" digunakan untuk langsung melakukan pull dari original remote repo (github) milik colt, agar selalu update jika jika pada original remote repo colt tersebut terjadi perubahan.
+
+    Anggap terjadi perubahan pada original remote repo (github) colt, dan stevie ingin memiliki perubahan tersebut pada local repositori nya. Stevie dapat melakukan pull pada branch main dengan menggunakan remote "upstream" seperti berikut:
+
+            git pull upstream main
+
+            "main" yaitu branch main pada original remote repo (github) milik colt.
+    
+    Selanjutnya Ketika stevie melakukan perubahan pada local repo dan ingin original remote repo colt memiliki perubahan tersebut, stevie dapat melakukan nya pada branch feature/main dan melakukan push dari local repo ke remote repo "fork" stevie menggunakan first remote nya yaitu "origin". Pada branch feature/main kita ketikkan perintah:
+
+	    git push origin branch-feature/main
+
+    lalu pada remote repo "fork" stevie, lakukan pull request ke original remote repo (github) colt dengan memilih menu "pull request" dan masukkan message yang stevie inginkan.

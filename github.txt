@@ -1,0 +1,183 @@
+- Github Basic
+
+    - Pengertian Github
+
+        Github adalah sebuah platform hosting untuk git repositori. Kita bisa menaruh git repositori kita kedalam Github dan mengaksesnya dari mana saja serta membagikan repositori tersebut dengan semua orang diseluruh dunia.
+
+        Selain menjadi hosting untuk git repositori kita, github memungkinkan kita untuk menambahkan beberapa fitur opsional yang tidak dimiliki oleh git repositori biasa(lokal).
+
+        Github adalah service hosting untuk git repositori yang berjalan secara online (cloud), yang membuat proses kolaborasi dengan orang lain menjadi lebih mudah.
+    
+    - Git clone
+
+        Perintah "git clone" digunakan untuk mengunduh salinan lengkap dari sebuah repositori Git ke dalam komputer lokal kita. Ini berguna jika kita ingin bekerja dengan proyek yang ada di repositori Git yang terletak di server jarak jauh (online), seperti GitHub atau GitLab.
+
+        Dengan menggunakan "git clone", kita dapat membuat salinan identik dari repositori tersebut di komputer lokal kita. Ini memungkinkan kita untuk melakukan perubahan, mengeksplorasi riwayat proyek, dan berkolaborasi dengan tim dengan mudah. Jadi, "git clone" adalah cara untuk mendapatkan salinan lengkap dari sebuah proyek Git ke dalam komputer kita sehingga kita dapat mulai bekerja dengan proyek tersebut secara lokal.
+
+        Saat menggunakan perintah "git clone <url>" , pastikan kita tidak sedang berada pada sebuah repositori.
+
+    - Github Setup: SSH Config
+
+        1. Pergi ke halaman webiste github: https://github.com/
+        
+        2. Pilih Sign Up for Github
+        
+        3. Masukkan Email dan Password (Sangat disarankan untuk menggunakan alamat email yang sama dengan yang didaftarkan pada lokal repositori kita).
+
+        4. Mengkonfigurasi SSH Keys (Digunakan sebagai authentikasi agar ketika kita berinteraksi dengan github seperti melakukan commit dan yang lainnya, tidak perlu memasukkan ulang email dan juga password).
+        
+            Membuat ssh keys pada sistem operasi windows:
+
+                1. Cek apakah pada laptop kita sudah terdapat ssh keys atau belum dengan perintah:
+                
+                    ls -al ~/.ssh
+
+                2. Jika belum ada maka kita buat ssh key kit dengan perintah:
+
+                    ssh-keygen -t ed25519 -C "prayudhabima14@gmail.com"
+
+                3. Masukkan passphrase yang diinginkan.
+                4. Maka kita akan diberitahu tempat penyimpanan identifikasi dan juga public key kita.
+
+                5. Langkah selanjutnya yaitu "Add your SSH key to the ssh-agent":
+
+                    - Pastikan ssh-agent sedang berjalan, kita dapat membuat ssh-agent berjalan secara otomatis saat kita membuka git bash dengan cara:
+
+                        Cek apakah pada laptop kita terdapat folder dengan nama .profile atau .bashrc
+                        Jika belum ada maka kita perlu membuatnya terlebih dahulu dengan cara:
+                            touch ~/.profile
+                        Lalu kita salin perintah yang diberikan oleh github kedalam file ".profile":
+                            env=~/.ssh/agent.env
+
+                            agent_load_env () { test -f "$env" && . "$env" >| /dev/null ; }
+
+                            agent_start () {
+                                (umask 077; ssh-agent >| "$env")
+                                . "$env" >| /dev/null ; }
+
+                            agent_load_env
+
+                            # agent_run_state: 0=agent running w/ key; 1=agent w/o key; 2=agent not running
+                            agent_run_state=$(ssh-add -l >| /dev/null 2>&1; echo $?)
+
+                            if [ ! "$SSH_AUTH_SOCK" ] || [ $agent_run_state = 2 ]; then
+                                agent_start
+                                ssh-add
+                            elif [ "$SSH_AUTH_SOCK" ] && [ $agent_run_state = 1 ]; then
+                                ssh-add
+                            fi
+
+                            unset env
+                        
+                6. Lalu tambahkan SSH private key kita ke ssh-agent dengan cara, pada terminal git bash ketikkan perintah:
+
+                    ssh-add c:/Users/prayu/.ssh/id_ed25519
+
+                    note : sesuaikan dengan lokasi dan juga penamaan nya dengan yang ada pada laptop kita.
+                    
+                7. Yang terakhir tambahkan SSH public key ke akun kita di GitHub, dengan cara:
+
+                    Pada akun github pilih settings -> Pilih SSH and GPG keys -> Pilih New SSH Key -> Masukkan title dengan informasi yang deskriptif contoh "Personal Laptop" -> Pilih Authentication Key -> Lalu pada kolom "Key" tekan ctrl + v untuk mem-paste key yang didapat pada git bash -> Setelah itu klik tombol "Add SSH key".
+
+    - Membuat Github Repo
+
+        Opsi pertama 
+        
+        Jika kita memiliki lokal repositori dan kita ingin mendapatkannya di Github, berikut adalah langkah-langkah nya:
+
+            1. Buat repositori kosong baru di Github
+            2. Connect lokal repositori kita ke Github (add a remote)
+            3. Push up perubahan kita ke Github
+        
+        Opsi kedua
+
+        Jika kita tidak memiliki lokal repositori, maka kita perlu membuatnya dari awal, berikut adalah langkah-langkah nya:
+
+            1. Buat repositori kosong baru di Github
+            2. Clone repositori tersebut ke lokal mesin kita dengan perintah (git clone <url>)
+            3. Lakukan perubahan apapun secara lokal
+            4. Push up perubahan kita ke Github
+
+    - Git Remotes Crash Course
+
+        Perintah "git remote" digunakan dalam Git untuk mengelola koneksi antara repositori lokal dan repositori yang terletak secara eksternal, seperti repositori yang disimpan di layanan hosting seperti GitHub, GitLab, atau repositori lainnya yang berada di server jarak jauh. 
+        
+        Berikut adalah beberapa fungsi utama dari perintah git remote:
+
+            1. Menampilkan Remote: 
+            
+            kita dapat menggunakan perintah git remote atau git remote -v untuk menampilkan daftar nama remote yang terhubung ke repositori lokal kita. Contoh:
+
+                git remote
+                git remote -v
+
+            2. Menambahkan Remote: 
+            
+            kita dapat menambahkan remote baru ke repositori lokal kita dengan menggunakan perintah git remote add. Kita memberikan nama yang diberikan kepada remote tersebut dan URL repositori yang akan dihubungkan. Contoh:
+
+                git remote add origin <url_repositori>
+
+            <url_repositori> adalah url yang ada pada saat kita pertama kali membuat repositori baru di github.
+
+            3. Menghapus Remote: 
+            
+            Jika kita tidak lagi memerlukan koneksi ke remote tertentu, kita bisa menghapusnya menggunakan perintah git remote rm. Contoh:
+
+                "git remote rm <name>" atau "git remote remove <name>"
+
+                git remote rm origin
+                git remote remove origin
+
+            4. Mengubah Nama Remote:
+            
+            kita juga dapat mengubah nama remote dengan menggunakan perintah git remote rename. Contoh:
+
+                "git remote rename <old-name> <new-name>"
+
+                git remote rename origin upstream
+
+            5. Mengedit URL Remote:
+            
+            Jika kita perlu mengubah URL dari remote tertentu, kita bisa menggunakan perintah git remote set-url. Contoh:
+
+                git remote set-url origin <url_baru>
+
+        Fungsi utama dari git remote adalah memungkinkan pengguna untuk mengelola dan berinteraksi dengan repositori yang berada di server eksternal, seperti GitHub, GitLab, atau server Git lainnya. Hal ini memudahkan pengembangan perangkat lunak terdistribusi dan kolaborasi antara pengembang dari lokasi yang berbeda dan memungkinkan kita untuk terhubung dengan repositori eksternal, menarik perubahan dari mereka, dan mendorong perubahan lokal ke sana.
+    
+    - Git Push
+
+        Untuk mem-push lokal repositori kita ke Github, kita dapat melakukan nya dengan perintah seperti berikut:
+
+            "git push <remote> <branch>"
+
+            git push origin master
+        
+        Perintah tersebut akan mengirimkan commit terakhir dari cabang saat ini(dalam contoh diatas adalah branch master) ke cabang yang sesuai di repositori remote (origin) GitHub kita. Jika kita menggunakan cabang lain selain master, gantilah master dengan nama cabang yang ingin kita push.
+
+        Perlu diperhatikan, pada github branch master dinamakan "main" oleh sebab itu kita perlu memperbarui terlebih dahulu nama branch master kita dengan nama "main" :
+
+            pada git bash terminal :
+
+                git branch -M main
+
+        Lalu kita push dengan nama branch main:
+
+            git push -u origin main
+        
+        Ketika kita melakukan perubahan seperti menambahkan branch dan membuat beberapa file baru di branch tersebut pada lokal repositori kita, github tidak secara otomatis dapat berubah menyesuaikan hal tersebut, untuk dapat menyesuaikan dengan lokal repositori kita, kita perlu melakukan "git push". Contoh kita menambahkan file baru pada branch master lalu melakukan commit ke lokal repositori, maka kita perlu melakukan git push: "git push origin master" agar file baru tersebut juga ada di github.
+
+        - Git Push Opsional
+
+        Kita tidak harus melakukan push repositori lokal branch kita ke repositore remote branch (github) branch dengan nama branch yang sama, contoh master ke master. Kita dapat mem-push repositori lokal branch kita ke repositori remote branch (github) dengan nama yang berbeda. Contoh kita ingin mem-push lokal branch kita dengan nama "pancake" ke remote branch, dengan nama branch "waffle", kita bisa melakukan nya dengan cara:
+
+            git push <remote> <local-branch>:<remote-branch>
+
+            "git push origin pancake:waffle"
+
+        - Arti dari sintaks "git push -u"
+
+        Opsi "-u" memiliki arti untuk mengatur upstream secara otomatis. Ketika kita menggunakan opsi "-u" saat melakukan push, itu menghubungkan cabang lokal yang sedang kita push ke cabang upstream yang sesuai secara otomatis.
+
+        Dengan menggunakan "-u", kita menetapkan cabang lokal yang sedang kita push sebagai cabang upstream untuk cabang tujuan di remote repository tersebut (github). Ini berguna karena setelah menggunakan opsi "-u", kita dapat hanya mengetik "git push" di masa mendatang tanpa harus menentukan cabang dan remote lagi, karena Git akan mengetahui cabang mana yang harus dipush ke mana.
+
+        Jadi perbedaan jika menggunakan opsi "-u" dengan tidak menggunakan opsi tersebut adalah, dengan opsi "-u" saat kita ingin melakukan proses push dari lokal repo ke remote repo, kita bisa hanya mengetikkan perintah "git push" karena dengan "-u" cabang lokal dan cabang remote sudah saling kenal. Jika tidak menggunakan opsi "-u" maka kita harus berkenalan ulang antara cabang lokal dan cabang remote, sehingga perlu mengetikkan perintah "git push <remote> <branch>" secara terus menerus.

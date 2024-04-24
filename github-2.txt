@@ -1,0 +1,127 @@
+- Github Fetching & Pulling
+
+    - Remote Tracking Branch
+
+    Ketika kita melakukan git clone dari remote repo (github) ke lokal repo, kita akan memiliki 2 buah branch (contoh kita meng-clone main branch di github ke lokal repo kita), maka pada lokal repo kita sebenarnya akan terdapat 2 branch yaitu: 
+    
+        1. "main" yang dapat kita ubah dan pindahkan sesuai keadaan di lokal repo.
+        2. "origin/main" yang merupakan referensi dari lokal repo ke remote repo (github) dan merujuk ke commit terakhir yang ada pada remote repo (github) tersebut, sehingga kita tidak dapat memindahkan nya pada lokal repo kita, kita hanya bisa memindahkan nya pada remote repo (github) kita dengan melakukan "push" dari lokal repo ke remote repo (github).
+    
+    Branch ke - 2 diatas disebut dengan "remote tracking branch".
+    Untuk melihat remote tracking branch yang dihasilkan dari proses clone remote repo (github), kita dapat menggunakan perintah:
+
+        "git branch -r"
+    
+    - Checking Out Remote Tracking Branches
+
+    Bayangkan setelah kita berhasil melakukan clone dari remote repo (github) ke lokal repo, lalu kita melakukan beberapa commit perubahan pada lokal repo tersebut (misal 2 commit tambahan), maka branch main dan tracking branch berada pada posisi yang berbeda. Kita bisa lihat dengan menggunakan perintah "git status" maka akan muncul pemberitahuan seperti berikut:
+
+        "Your branch is ahead of 'origin/main' by 2 commits.
+        (use "git push" to publish your local commits)"
+
+    Jika kita ingin melihat kembali seperti apa project yang sedang dikerjakan saat pertama kali diclone dari remote repo (github), kita dapat menggunakan perintah:
+
+        "git checkout origin/main"
+    
+    Perlu diperhatikan perintah diatas akan membuat kita berada dalam mode "detached HEAD".
+
+    - Working with remote branches 
+
+    Ketika kita meng-clone remote repo (github) yang memiliki lebih dari 1 branch maka yang akan ada pada lokal repo kita hanyalah 1 branch saja, yaitu branch default dari remote repo (github) yaitu master/main. Namun sebenarnya lokal repo kita telah mengetahui semua branch yang ada pada remote repo (github) tersebut, kita bisa mengetes nya dengan menggunakan perintah "git branch -r" dimana akan menampilkan "remote tracking branch" yang berisi semua branch yang ada pada remote repo (github).
+
+    Jadi bagaimana cara kita bisa melihat branch-branch tersebut langsung pada lokal repo kita?
+
+    Secara default master/main branch pada lokal repo kita sudah terkoneksi dengan remote repo (github) branch yaitu origin/master/main. Dan dapat mengetahui branch-branch yang ada pada remote repo (github).
+
+    Agar branch master/main branch lokal repo kita dapat terhubung dengan branch-branch lainnya yang ada pada remote repo (github), kita harus membuat koneksi ke branch-branch tersebut. Kita bisa melakukannya dengan menggunakan perintah:
+
+        "git checkout origin/nama-branch"
+    
+    Namun perintah tersebut akan membuat kita berada pada mode "detached HEAD".
+
+    Bagaimana jika kita ingin menggunakan branch-branch remote repo pada local repo kita, dan mengkoneksikan nya seperti local repo (master/main) yang terkoneksi dengan remote repo (origin/master/main) ?
+
+    Cara nya cukup mudah kita tinggal gunakan perintah:
+
+        "git switch nama-branch-remote"
+    
+    Perintah diatas akan membuat branch lokal baru pada local repo kita berdasarkan branch yang ada pada remote repo (github). Perintah tersebut juga akan membuat local branch baru yang secara default terkoneksi dengan remote branch origin/nama-branch-remote.
+
+        Contoh pada remote repo kita memiliki branch dengan nama "puppies", lalu kita ingin pada local repo kita juga terdapat branch tersebut. Maka kita dapat menggunakan perintah:
+
+            "git switch puppies"
+    
+        Perintah tersebut akan secara otomatis membuat branch baru pada local repo kita dan secara default terkoneksi dengan branch remote "origin/puppies".
+    
+        Sehingga jika kita check branch apa saja yang ada pada local repo kita dengan menggunakan perintah "git branch", branch nya akan bertambah dari yang sebelumnya hanya 1 yaitu "master/main" branch menjadi 2 yaitu "master/main" dan "puppies" branch.
+    
+        Perlu diperhatikan perintah "git switch nama-branch-remote", nama branch remote nya harus sesuai dengan yang ada pada remote repo (github), jika tidak maka akan gagal.
+    
+    Jika kita telah berhasil melakukan clone branch seperti cara diatas lalu melakukan perubahan. Maka ketika kita mengetikkan perintah "git status", akan muncul pemberitahuan seperti berikut:
+
+        "Your branch is ahead of 'origin/main' by N commits.
+        (use "git push" to publish your local commits)"
+    
+    Sehingga kita perlu melakukan git push agar local repo dan remote repo dapat tersinkronisasi dengan baik.
+
+    - Git Fetch Basics
+
+    Git fetch adalah perintah yang digunakan untuk mengambil perubahan terbaru dari repositori jarak jauh, seperti repositori yang disimpan di GitHub atau GitLab, tanpa langsung menggabungkannya dengan pekerjaan kita. Ini memungkinkan kita untuk melihat apa yang telah berubah sejak kita terakhir mengambil pembaruan dari repositori tersebut.
+
+    Berikut adalah langkah-langkah dasar untuk menggunakan `git fetch`:
+
+        1. Mengambil Pembaruan: 
+        
+        Ketika kita menjalankan perintah: 
+        
+            "git fetch <remote>"
+        
+        Git akan menghubungi repositori jarak jauh yang terkait dengan proyek kita dan mengunduh semua perubahan terbaru, termasuk cabang-cabang baru atau perubahan yang dilakukan oleh orang lain.
+
+        2. Periksa Perubahan:
+        
+        Setelah kita menjalankan `git fetch`, kita dapat memeriksa perubahan yang telah diunduh tanpa menggabungkannya ke dalam pekerjaan kita saat ini. kita dapat melihat perubahan tersebut dengan menggunakan perintah seperti `git log` atau `git diff` untuk membandingkan perubahan yang diunduh dengan pekerjaan kita saat ini. Contoh:
+
+            "git log origin/master..master"
+        
+        Perintah di atas akan menampilkan semua perubahan yang ada di cabang lokal kita (master) tetapi tidak ada di cabang origin/master yang merupakan cabang di repositori jarak jauh.
+
+        3. Menggabungkan Perubahan: 
+        
+        Setelah kita memeriksa perubahan yang diunduh dan merasa siap untuk menggabungkannya ke dalam pekerjaan kita, kita dapat menjalankan perintah `git merge` atau `git rebase` untuk menggabungkan perubahan tersebut dengan cabang kerja kita. Contoh:
+
+            "git merge origin/master"
+
+        Perintah di atas akan menggabungkan perubahan dari cabang origin/master (repositori jarak jauh) ke dalam cabang kerja lokal kita (master).
+
+    Dengan menggunakan `git fetch`, kita dapat menghindari kejutan yang tidak diinginkan saat menggabungkan perubahan dari repositori jarak jauh ke dalam proyek kita. Ini memungkinkan kita untuk memiliki lebih banyak kendali atas aliran kerja kita dan memeriksa perubahan sebelum kita memutuskan untuk menggabungkannya.
+
+    - Git Pull Basics
+
+    Git pull adalah perintah yang menggabungkan perubahan terbaru dari repositori jarak jauh (seperti GitHub atau GitLab) ke dalam cabang kerja kita dan langsung menggabungkannya, sehingga mengupdate pekerjaan kita dengan perubahan terbaru.
+
+    Ini adalah beberapa poin sederhana mengenai `git pull`:
+
+        1. Mengambil dan Menggabungkan:
+        
+        Saat kita menjalankan perintah 
+        
+            "git pull <remote> <branch>" or "git pull"
+
+        Git melakukan dua tugas sekaligus: pertama, ia menjalankan `git fetch` untuk mengunduh perubahan terbaru dari repositori jarak jauh ke dalam repositori lokal kita. Kedua, setelah perubahan diunduh, Git akan mencoba menggabungkan perubahan tersebut secara otomatis ke dalam cabang kerja kita.
+
+        Jika kita menjalankan perintah "git pull" tanpa menambahkan remote dan juga branch, git akan melakukan secara default (remote akan di set menjadi origin) (branch akan di set menjadi branch apapun yang terkait dengan branch saat ini dimana tempat git pull dieksekusi).
+
+            "git pull origin main"
+        
+        Perintah ini akan mengambil perubahan terbaru dari cabang "main" di repositori "origin" (repositori jarak jauh) dan langsung menggabungkannya ke dalam cabang kerja kita (misalnya, cabang "main" di repositori lokal kita).
+
+        2. Sinkronisasi Pekerjaan: 
+        
+        `git pull` sangat berguna untuk menjaga pekerjaan kita tetap terkini dengan repositori jarak jauh. Dengan menjalankan `git pull` secara teratur, kita dapat memastikan bahwa kita selalu bekerja dengan versi terbaru dari proyek kita dan menghindari konflik yang mungkin terjadi jika kita terlalu jauh tertinggal.
+
+        3. Keterkaitan dengan git fetch: 
+        
+        Secara teknis, `git pull` adalah gabungan dari dua perintah: `git fetch` dan `git merge` (atau `git rebase`, tergantung pada konfigurasi kita). `git pull` pertama-tama menjalankan `git fetch` untuk mengambil perubahan terbaru, dan kemudian secara otomatis mencoba menggabungkan perubahan tersebut ke dalam cabang kerja kita. Jadi, dapat dikatakan bahwa `git pull` membangun di atas fungsionalitas `git fetch`.
+
+    Jadi, sementara `git fetch` memberi kita kontrol langsung atas perubahan yang kita unduh dari repositori jarak jauh dan memungkinkan kita untuk memeriksa perubahan sebelum menggabungkannya, `git pull` adalah cara cepat dan mudah untuk mengambil perubahan tersebut dan menggabungkannya secara langsung ke dalam pekerjaan kita atau bisa kita ibaratkan git pull seperti (git fetch + git merge).

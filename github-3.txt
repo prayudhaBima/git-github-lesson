@@ -1,0 +1,180 @@
+- Github Visibilty: Public vs Private
+
+    - Cara merubah visibilty dari remote repo (github) kita adalah dengan memilih menu "settings" lalu pada bagian "Danger Zone" pilih "Change repository visibility" lalu ganti sesuai kebutuhan, apakah itu "public" ataupun "private".
+
+    - Ketika remote repo kita atur menjadi "Public", orang lain dapat mengclone repo kita ke local repo mereka, tetapi mereka tidak bisa melakukan push local repo mereka ke remote repo (github) kita, hanya orang yang diberikan akses saja yang bisa melakukannya. Kita dapat memberikan izin atau akses kepada orang lain untuk melakukan hal tersebut dengan cara:
+
+        (old) Pilih settings -> Pilih Options -> Pilih Manage Access -> Pilih Add People
+        (new) Pilih settings -> Access -> Collaborators -> Add People
+
+    Pastikan untuk mengisikan akun github atau email dari orang yang ingin kita berikan akses terhadap remote repo (github) kita.
+
+    Hal diatas akan membuat invitation yang akan dikirim ke email github orang lain yang ingin kita berikan akses remote repo kita, jadi mereka harus mengklik invitation tersebut pada email mereka.
+
+    - Contoh Kolaborasi menggunakan github
+
+    Ibaratkan terdapat 2 orang dengan 2 akun github, yaitu:
+
+        1. Colt (yang punya akun remote repo github kita nama kan remote repo nya "bookish-disco")
+        2. Stevie (yang diberikan akses kolaborasi oleh colt, pada remote repo github nya "bookish-disco")
+    
+    Pada github colt terdapat file dengan nama "artist.txt" tetapi belum ada isinya. Lalu stevie melakukan clone github colt ke lokal repo stevie dan menambahkan isi untuk file "artist.txt" dan melakukan push perubahan tersebut dari lokal repo stevie ke remote repo (github) colt "bookish-disco", tentunya dengan menggunakan akun github stevie yang telah diberi izin oleh colt.
+
+    Agar colt bisa melihat perubahan yang dilakukan oleh stevie pada file "artist.txt" maka colt harus melakukan "git pull" / "git pull <remote> <nama-branch>". Maka tadaaa.. colt bisa melihat perubahan yang dilakukan stevie pada file "artist.txt".
+
+    Selamat kita telah berhasil melakukan demo kolaborasi antara 2 orang dengan 2 akun github yang berbeda berdasarkan basic alur yang umum digunakan.
+
+    - Apa itu README ?
+
+    File "README" adalah sebuah file teks yang umumnya ditempatkan di direktori utama suatu proyek perangkat lunak di repositori Git, termasuk GitHub. File ini bertujuan untuk memberikan informasi penting tentang proyek tersebut kepada pengguna yang mengunjungi repositori tersebut. Isinya biasanya berisi panduan singkat tentang cara menggunakan atau menginstal proyek, daftar fitur, persyaratan sistem, cara berkontribusi, dan informasi kontak untuk pengembang.
+
+    README sering kali ditulis dalam format teks sederhana seperti Markdown (.md), yang memungkinkan untuk pemformatan yang lebih kaya seperti judul, daftar, link, dan gambar. Dengan memiliki README yang informatif dan terstruktur dengan baik, pengguna dapat dengan mudah memahami tujuan, fungsionalitas, dan cara penggunaan proyek tersebut. Ini membantu mempromosikan kolaborasi, penggunaan, dan kontribusi yang lebih baik dari komunitas pengembang.
+
+    - Markdown (.md) Crash Course and How To Create README file
+
+    Markdown docs: https://daringfireball.net/projects/markdown/
+    Markdown-it demo: https://markdown-it.github.io/
+    
+    Contoh penulisan markdown:
+
+    <p align="center">
+        <img src="https://github.com/meta-llama/llama3/blob/main/Llama3_Repo.jpeg" width="400"/>
+    </p>
+
+    <p align="center">
+        🤗 <a href="https://huggingface.co/meta-Llama"> Models on Hugging Face</a>&nbsp | <a href="https://ai.meta.com/blog/"> Blog</a>&nbsp |  <a href="https://llama.meta.com/">Website</a>&nbsp | <a href="https://llama.meta.com/get-started/">Get Started</a>&nbsp
+    <br>
+
+    # Meta Llama 3
+
+    We are unlocking the power of large language models. Our latest version of Llama is now accessible to individuals, creators, researchers, and businesses of all sizes so that they can experiment, innovate, and scale their ideas responsibly.
+
+    ## Download
+
+    In order to download the model weights and tokenizer, please visit the [Meta Llama website](https://llama.meta.com/llama-downloads/) and accept our License.
+
+    ### Access to Hugging Face
+
+    We are also providing downloads on [Hugging Face](https://huggingface.co/meta-llama), in both transformers and native `llama3` formats. To download the weights from Hugging Face, please follow these steps:
+
+    - Visit one of the repos, for example [meta-llama/Meta-Llama-3-8B-Instruct](https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct).
+    - Read and accept the license. Once your request is approved, you'll be granted access to all the Llama 3 models. Note that requests use to take up to one hour to get processed.
+    - To download the original native weights to use with this repo, click on the "Files and versions" tab and download the contents of the `original` folder. You can also download them from the command line if you `pip install huggingface-hub`:
+
+    huggingface-cli download meta-llama/Meta-Llama-3-8B-Instruct --include "original/*" --local-dir meta-llama/Meta-Llama-3-8B-Instruct
+
+
+    ## Quick Start
+
+    You can follow the steps below to quickly get up and running with Llama 3 models. These steps will let you run quick inference locally. For more examples, see the [Llama recipes repository](https://github.com/facebookresearch/llama-recipes).
+
+    1. In a conda env with PyTorch / CUDA available clone and download this repository.
+
+    2. In the top-level directory run:
+    
+        pip install -e .
+    
+    3. Visit the [Meta Llama website](https://llama.meta.com/llama-downloads/) and register to download the model/s.
+
+    4. Once registered, you will get an email with a URL to download the models. You will need this URL when you run the download.sh script.
+
+    5. Once you get the email, navigate to your downloaded llama repository and run the download.sh script.
+        - Make sure to grant execution permissions to the download.sh script
+        - During this process, you will be prompted to enter the URL from the email.
+        - Do not use the “Copy Link” option but rather make sure to manually copy the link from the email.
+
+    6. Once the model/s you want have been downloaded, you can run the model locally using the command below:
+
+        torchrun --nproc_per_node 1 example_chat_completion.py \
+            --ckpt_dir Meta-Llama-3-8B-Instruct/ \
+            --tokenizer_path Meta-Llama-3-8B-Instruct/tokenizer.model \
+            --max_seq_len 512 --max_batch_size 6
+
+    **Note**
+        - Replace  `Meta-Llama-3-8B-Instruct/` with the path to your checkpoint directory and `Meta-Llama-3-8B-Instruct/tokenizer.model` with the path to your tokenizer model.
+
+    ## Inference
+
+    Different models require different model-parallel (MP) values:
+
+    |  Model | MP |
+    |--------|----|
+    | 8B     | 1  |
+    | 70B    | 8  |
+
+    All models support sequence length up to 8192 tokens, but we pre-allocate the cache according to `max_seq_len` and `max_batch_size` values. So set those according to your hardware.
+
+    - Github Gists
+
+    GitHub Gists adalah layanan yang disediakan oleh GitHub yang memungkinkan kita untuk berbagi kode, catatan, atau fragmen teks dengan mudah. Ini mirip dengan repositori biasa di GitHub, tetapi lebih sederhana dan terpusat pada satu file atau beberapa file kecil. 
+    
+    Beberapa poin penting tentang GitHub Gists:
+
+        1. Berbagi Kode dengan Mudah: 
+        
+        kita dapat dengan cepat membuat dan membagikan potongan kode, skrip, atau catatan dengan orang lain. Ini sangat berguna untuk berbagi kode kecil atau demo singkat.
+
+        2. Versioning: 
+        
+        Seperti repositori GitHub lainnya, setiap Gist memiliki riwayat revisi. Ini berarti kita dapat melihat perubahan apa pun yang telah dibuat pada Gist dari waktu ke waktu.
+
+        3. Komentar dan Kolaborasi: 
+        
+        Orang lain dapat mengomentari dan berkontribusi pada Gists kita. Ini memungkinkan kolaborasi dan diskusi tentang kode atau catatan yang kita bagikan.
+
+        4. Embedding: 
+        
+        kita dapat menanamkan Gists ke dalam situs web atau blog kita dengan mudah. Ini memungkinkan kita untuk menampilkan kode atau catatan secara langsung di halaman web kita.
+
+    Jadi, secara sederhana, GitHub Gists adalah cara yang mudah dan cepat untuk berbagi kode, catatan, atau fragmen teks dengan orang lain di GitHub.
+
+    - Github Pages
+
+    GitHub Pages adalah layanan yang disediakan oleh GitHub yang memungkinkan kita untuk membuat situs web statis yang di-hosting langsung dari repositori GitHub kita. Beberapa poin penting tentang GitHub Pages:
+
+        1. Hosting Gratis:
+        
+        GitHub Pages menyediakan hosting gratis untuk situs web statis. kita dapat membuat situs web pribadi, blog, portofolio, atau proyek lain dan meng-hostingnya secara gratis menggunakan GitHub Pages.
+
+        2. Mudah Digunakan:
+        
+        GitHub Pages menyediakan proses pembuatan situs web yang mudah. kita cukup membuat repositori GitHub, mengunggah berkas-berkas HTML, CSS, dan JavaScript kita, dan GitHub Pages akan meng-hosting situs web kita secara langsung dari repositori tersebut.
+
+        3. Custom Domain: 
+        
+        Kita dapat menggunakan nama domain kustom untuk situs web kita yang di-hosting di GitHub Pages. Ini memungkinkan kita untuk memiliki situs web dengan alamat web yang terlihat lebih profesional.
+
+        4. Markdown: 
+        
+        GitHub Pages mendukung penggunaan Markdown untuk membuat konten situs web. Ini memungkinkan kita untuk menulis konten situs web kita dengan format yang lebih sederhana dan kemudian mengonversinya menjadi HTML untuk ditampilkan di situs web.
+
+    Dengan demikian, secara sederhana, GitHub Pages adalah layanan hosting yang memungkinkan kita untuk membuat situs web statis dan meng-hostingnya langsung dari repositori GitHub kita dengan mudah dan gratis. Perlu diperhatikan github pages tidak bisa digunakan untuk website yang kompleks seperti aplikasi website dan sebagainya.
+
+    - Langkah-langkah membuat github pages
+
+    Berikut langkah-langkah untuk membuat GitHub Pages:
+
+        1. Buat Repositori GitHub:
+            - Buka situs web GitHub (https://github.com/) dan masuk ke akun GitHub kita.
+            - Klik tombol "+", kemudian pilih "New repository".
+            - Beri nama repositori kita. Pastikan untuk mencentang opsi "Initialize this repository with a README" jika kita ingin langsung membuat README.md di repositori kita.
+            - Klik tombol "Create repository" untuk membuat repositori baru.
+
+        2. Tambahkan Konten ke Repositori:
+            - Jika kita belum membuatnya, tambahkan file HTML, CSS, JavaScript, atau konten lain yang ingin kita tampilkan di situs web kita ke repositori kita.
+            - kita juga dapat membuat berkas Markdown(.md) untuk konten situs web kita.
+
+        3. Aktifkan GitHub Pages:
+            - Buka pengaturan (Settings) repositori kita.
+            - Gulir ke bawah ke bagian "GitHub Pages".
+            - Di opsi "Source", pilih "master branch" jika konten situs kita seperti file index.html dan sebagainya berada di branch master. Jika konten situs kita berada di branch lain, pilih branch yang sesuai.
+            - Klik "Save" atau "Save Changes".
+
+        4. Verifikasi Pembuatan GitHub Pages:
+            - Setelah menyimpan pengaturan, GitHub akan memberikan URL langsung ke situs web kita (misalnya, `https://username.github.io/repository-name`). 
+            - Buka URL ini di browser kita untuk memastikan situs web kita sudah berhasil dibuat.
+
+        5. Custom Domain (opsional):
+            - Jika kita ingin menggunakan nama domain kustom, kita dapat menambahkannya di pengaturan GitHub Pages. Untuk ini, kita perlu membeli nama domain dari penyedia domain dan mengonfigurasikan rekam DNS-nya.
+
+    Setelah langkah-langkah ini, situs web kita akan di-hosting di GitHub Pages dan dapat diakses melalui URL yang diberikan oleh GitHub. kita dapat terus memperbarui konten situs web kita dengan mengubah berkas-berkas di repositori GitHub kita. Perubahan akan secara otomatis diperbarui di situs web kita.
